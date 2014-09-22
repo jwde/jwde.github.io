@@ -1,0 +1,19 @@
+h1.name { 
+        color: black;
+        font-family: verdana,helvetica,arial,sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        background-color: white;  
+}
+
+.centerLeft { 
+        margin-left: auto; 
+        margin-right: auto;
+        width: 70%;
+}
+
+h3.sectionName { 
+        color: black; 
+        font: Trebuchet MS;
+        background-color: white; 
+}
