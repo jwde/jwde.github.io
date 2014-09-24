@@ -14,6 +14,11 @@ h1#title {
         text-align: center;
 }
 
+h1.center {
+        margin-left: 30%;
+        margin-right: 30%;
+}
+
 ol#sideBar {
         list-style-type: disc;
         border-style: solid;
@@ -22,7 +27,7 @@ ol#sideBar {
 }
 
 body.default {
-        background-color: #F0F0F0;
+        background-color: #FAFAFA;
         font-family: arial,sans-serif;
 }
 
