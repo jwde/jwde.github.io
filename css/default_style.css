@@ -15,24 +15,28 @@ h1#title {
 }
 
 h1.center {
-        margin-left: 30%;
+        margin-left: 15%;
         margin-right: 30%;
 }
 
 ol#sideBar {
         list-style-type: disc;
-        border-style: solid;
-        border-color: #B0B0B0;
+        /*border-style: solid;
+        border-color: #B0B0B0;*/
         width: 40%;
+}
+
+li.button {
+        border-style: solid;
+        border-color: #000000;
+        background-color: #C0C0C0;
+        margin-top: 15px;
+        margin-bottom: 15px;
 }
 
 body.default {
         background-color: #FAFAFA;
         font-family: arial,sans-serif;
-}
-
-.centerLeft { 
-        width: 50%;
 }
 
 img.centered {
@@ -45,7 +49,7 @@ img.centered {
 
 h3.sectionName { 
         color: black; 
-        font-style: italic;
+/*        font-style: italic;*/
         font-weight: normal;
         background-color: transparent; 
         margin-left: 3%;
