@@ -1,0 +1,151 @@
+/* defaults */
+body {
+    background-color: #303530;
+    color: #eee;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* links to github, linkedin, stackoverflow */
+.sidebar {
+    position: fixed;
+    width: 50px;
+    margin-left: 20px;
+    height: 150px;
+    top: 40%;
+}
+
+.sidebar > a {
+    color: #fff;
+}
+
+.navbar-nav {
+    margin: 0 auto;
+    display: table;
+    table-layout: fixed;
+    float: none;
+    font-size: medium;
+}
+
+/* all content */
+.content {
+    width: auto;
+    position: relative;
+    min-height: 100%;
+    height: 85vh;
+    margin: 0 0 0 100px;
+}
+
+/* terminal visualization */
+.terminal {
+    border-bottom: solid;
+    border-left: solid;
+    border-right: solid;
+    border-radius: 10px;
+    border-color: #000;
+    margin-top: 15px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    height: 100%;
+    background-color: #302730;
+}
+
+.terminal-header {
+    border-top: solid;
+    border-radius: 10px;
+    border-color: #000;
+    background-color: #222;
+}
+
+.terminal-header > h3 {
+    padding-bottom: 8px;
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+.terminal-body {
+    overflow-y: scroll;
+    width: 100%;
+    margin-top: 0px;
+    min-height: 100%;
+    height: 100%;
+}
+
+#terminal-text {
+    margin-left: 20px;
+    margin-right: 20px;
+    height: auto;
+    font-size: 20px;
+}
+
+#terminal-prompt {
+    font-size: 20px;
+    margin-left: 20px;
+    margin-right: 0px;
+}
+
+#terminal-prompt-text {
+    font-size: 20px;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.invisible {
+    display: none;
+}
+
+.typed-cursor {
+    opacity: 1;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
+    font-size: 20px;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@-webkit-keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@-moz-keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* custom scroll bar */
+.track {
+    width: 10px;
+    background: rgba(0, 0, 0, 0);
+    margin-right: 2px;
+    border-radius: 10px;
+    -webkit-transition: background 250ms linear;
+    transition: background 250ms linear;
+}
+
+.track:hover,
+.track.dragging {
+    background: #d9d9d9;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.handle {
+    width: 7px;
+    right: 0;
+    background: #999;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 7px;
+    -webkit-transition: width 250ms;
+    transition: width 250ms;
+}
+
+.track:hover .handle,
+.track.dragging .handle {
+    width: 10px;
+}
