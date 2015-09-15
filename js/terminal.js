@@ -28,7 +28,7 @@ $(window).load(function() {
                 + "Fairfield Auction, LLC. Monroe, Connecticut, 2009-2013<br>"
                 + "- Rebuilt and maintained <a href='http://fairfieldauction.com'>company website</a><br>"
                 + "- Built and configured office workstations<br>"
-                + "- Advised marketing strategy for transition to web-only auction platform<br>"
+                + "- Advised marketing strategy for transition to web-only auction platform<br><br>"
                 + "Activities<br>"
                 + "Studied Guitar - 2005 - Present<br>"
                 + "&nbsp;&nbsp;&nbsp;&nbsp;Berklee College of Music Five-Week Summer Performance program - Guitar, Summer 2012<br>"
