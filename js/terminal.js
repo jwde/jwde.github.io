@@ -1,11 +1,10 @@
 $(window).load(function() {
     var terminalText = "";
-    var aboutText = "Junior at Tufts University.<br>"
-        + "Studies computer science and mathematics.<br>"
-        + "Interests include full stack web development, machine learning, and programming languages.<br>"
-        + "Software Co-op at Teradyne.<br>"
-        + "Enjoys playing strategy games.<br>"
-        + "Enjoys playing guitar.";
+    var aboutText = "Hi, I'm Jay.<br>" +
+                    "I'm a junior at Tufts University, studying computer science and maths.<br>" +
+                    "I'm excited to learn more about information security and data science.<br>" +
+                    "I love to play guitar and am starting a project to teach computers to write music.<br>" +
+                    "I enjoy playing board games and going rock climbing with friends."
     var portfolioText = "<a href='http://piper.link'>piper</a> - image sharing and realtime discussion site<br>" +
                         "<a href='http://fairfieldauction.com'>fairfieldauction</a> - antiques and fine art auction site<br>" +
                         "<a href='https://github.com/jwde/Digital-Composer'>Digital Composer</a> - melody composer trained by humans on the web";
@@ -29,10 +28,6 @@ $(window).load(function() {
                 + "- Rebuilt and maintained <a href='http://fairfieldauction.com'>company website</a><br>"
                 + "- Built and configured office workstations<br>"
                 + "- Advised marketing strategy for transition to web-only auction platform<br><br>"
-                + "Activities<br>"
-                + "Studied Guitar - 2005 - Present<br>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;Berklee College of Music Five-Week Summer Performance program - Guitar, Summer 2012<br>"
-                + "Tufts Taekwondo"
     function clearPrompt() {
         $('#terminal-prompt-text').replaceWith("<span id='terminal-prompt-text'></span>");
         $('.typed-cursor').remove();
@@ -78,9 +73,9 @@ $(window).load(function() {
 
     $('#aboutNav').on('click touchstart', about);
     $('#portfolioNav').on('click touchstart', portfolio);
-    $('#cvNav').on('click touchstart', cv);
+    //$('#cvNav').on('click touchstart', cv);
 
-    typeAnimated(["Hi! My name is Jay and this is my website.", "more Jay_DeStories"],
+    typeAnimated(["Hi there! My name is Jay and this is my website.", "more Jay_DeStories"],
                  commandResponse(aboutText));
 
     $('.terminal-body').enscroll({
