@@ -4,7 +4,7 @@ $(window).load(function() {
                     "I'm a junior at Tufts University studying computer science and mathematics.<br>" +
                     "I'm excited to learn more about information security, data science, and artificial intelligence.<br>" +
                     "I love to play guitar and am starting a project to teach computers to write music.<br>" +
-                    "I enjoy playing board games and going rock climbing with friends."
+                    "I enjoy gaming and going rock climbing with friends."
     var portfolioText = "<a href='http://piper.link'>piper</a> - image sharing and realtime discussion site<br>" +
                         "<a href='http://fairfieldauction.com'>fairfieldauction</a> - antiques and fine art auction site<br>" +
                         "<a href='https://github.com/jwde/Digital-Composer'>Digital Composer</a> - melody composer trained by humans on the web";
