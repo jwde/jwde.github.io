@@ -2,7 +2,7 @@ $(window).load(function() {
     var terminalText = "";
     var aboutText = "Hi, I'm Jay.<br>" +
                     "I'm a junior at Tufts University, studying computer science and maths.<br>" +
-                    "I'm excited to learn more about information security and data science.<br>" +
+                    "I'm excited to learn more about information security, data science, and artificial intelligence.<br>" +
                     "I love to play guitar and am starting a project to teach computers to write music.<br>" +
                     "I enjoy playing board games and going rock climbing with friends."
     var portfolioText = "<a href='http://piper.link'>piper</a> - image sharing and realtime discussion site<br>" +
