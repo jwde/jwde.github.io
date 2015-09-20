@@ -5,9 +5,12 @@ $(window).load(function() {
                     "I'm excited to learn more about information security, data science, and artificial intelligence.<br>" +
                     "I love to play guitar and am starting a project to teach computers to write music.<br>" +
                     "I enjoy gaming and going rock climbing with friends."
-    var portfolioText = "<a href='http://piper.link'>piper</a> - image sharing and realtime discussion site<br>" +
+    var portfolioText = "<a href='http://piper.link'>piper</a> - image sharing and realtime discussion site. <a href='https://github.com/jwde/Piper'>- github</a><br>" +
                         "<a href='http://fairfieldauction.com'>fairfieldauction</a> - antiques and fine art auction site<br>" +
-                        "<a href='https://github.com/jwde/Digital-Composer'>Digital Composer</a> - melody composer trained by humans on the web";
+                        "<a href='https://github.com/jwde/Digital-Composer'>Digital Composer</a> - melody composer trained by humans on the web<br>" +
+                        "<a href='https://github.com/jwde/comp20/tree/master/mmap'>Marauder's Map</a> - Broadcast user locations to one another and display on a map.<br>" +
+                        "<a href='https://github.com/jwde/comp20/tree/master/whereintheworld'>WhereInTheWorld</a> - Backend location tracker for Marauder's Map.<br>" +
+                        "<a href='https://github.com/jwde/comp20/tree/master/security'>Security Analysis</a> of a classmate's website similar to Marauder's Map";
     var cvText = "Academics<br>"
                 + "Tufts University - School of Engineering, Medford, MA, expected diploma May 2017<br>"
                 + "- Double-Majoring in Computer Science and Mathematics<br>"
