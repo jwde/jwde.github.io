@@ -30,7 +30,9 @@ $(window).load(function() {
                 + "Fairfield Auction, LLC. Monroe, Connecticut, 2009-2013<br>"
                 + "- Rebuilt and maintained <a href='http://fairfieldauction.com'>company website</a><br>"
                 + "- Built and configured office workstations<br>"
-                + "- Advised marketing strategy for transition to web-only auction platform<br><br>"
+                + "- Advised marketing strategy for transition to web-only auction platform<br><br>";
+    var contactText = "email: <a href='mailto:jaydestories@gmail.com'>jaydestories@gmail.com</a><br>" +
+                      "<a href='https://www.linkedin.com/pub/jay-destories/105/399/75b'>LinkedIn</a>";
     function clearPrompt() {
         $('#terminal-prompt-text').replaceWith("<span id='terminal-prompt-text'></span>");
         $('.typed-cursor').remove();
@@ -74,9 +76,14 @@ $(window).load(function() {
         typeAnimated(["history"], commandResponse(cvText));
     }
 
+    function contact() {
+        typeAnimated(["apropos contact jay"], commandResponse(contactText));
+    }
+
     $('#aboutNav').on('click touchstart', about);
     $('#portfolioNav').on('click touchstart', portfolio);
     //$('#cvNav').on('click touchstart', cv);
+    $('#contactNav').on('click touchstart', contact);
 
     typeAnimated(["Hi there! My name is Jay and this is my website.", "more Jay_DeStories"],
                  commandResponse(aboutText));
