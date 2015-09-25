@@ -65,7 +65,7 @@ $(window).load(function() {
     }
 
     function about() {
-        typeAnimated(["more Jay_DeStories"], commandResponse(aboutText));
+        typeAnimated(["cat Jay_DeStories"], commandResponse(aboutText));
     }
 
     function portfolio() {
