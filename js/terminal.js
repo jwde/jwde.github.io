@@ -85,7 +85,7 @@ $(window).load(function() {
     //$('#cvNav').on('click touchstart', cv);
     $('#contactNav').on('click touchstart', contact);
 
-    typeAnimated(["Hi there! My name is Jay and this is my website.", "more Jay_DeStories"],
+    typeAnimated(["Hi there! My name is Jay and this is my website.", "cat Jay_DeStories"],
                  commandResponse(aboutText));
 
     $('.terminal-body').enscroll({
