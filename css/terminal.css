@@ -3,8 +3,8 @@ body {
     background-color: #303530;
     color: #eee;
     font-family: 'Ubuntu', sans-serif;
-    height: 100vw;
-    min-height: 100vw;
+    height: 100vh;
+    min-height: 100vh;
     min-width: 100%;
     margin: 0;
     padding: 0;
