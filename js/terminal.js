@@ -60,7 +60,7 @@ $(window).load(function() {
     $('#portfolioNav').on('click touchstart', portfolio);
     $('#contactNav').on('click touchstart', contact);
 
-    typeAnimated(["Hi there! My name is Jay and this is my website.", "cat Jay_DeStories"],
+    typeAnimated(["Hi there!", "I'm Jay and this is my website.", "cat Jay_DeStories"],
                  commandResponse(aboutText));
 
     $('.terminal-body').enscroll({
