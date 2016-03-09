@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mobile Pong</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="jquery-1.12.1.min.js"></script>
+    <script>
+        //function() {
+            var canvas;
+            var context;
+            var touches = null;
+            var p1x = .5;
+            var p2x = .5;
+            var p1ybound = .8;
+            var p2ybound = .2;
+            var paddlelength = .2;
+            var paddlewidth = .05;
+            var paddlexmin = paddlelength / 2;
+            var paddlexmax = 1 - paddlelength / 2;
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+
+            function render() {
+                context.clearRect(0, 0, width, height);
+
+                /* draw p1 */
+                context.rect((p1x - (paddlelength / 2)) * width, p1ybound * height, (p1x + (paddlelength / 2)) * width, (p1ybound + paddlewidth) * height);
+
+                /* draw p2 */
+                context.rect((p2x - (paddlelength / 2)) * width, p2ybound * height, (p2x + (paddlelength / 2)) * width, (p2ybound - paddlewidth) * height);
+
+                context.stroke();
+            }
+
+            $(document).ready(function() {
+                canvas = document.getElementById('canvas');
+                context = canvas.getContext('2d'); 
+
+                /* handle user input */
+                canvas.addEventListener('touchmove', function(event) {
+                    event.preventDefault();
+
+                    if (touches != null) {
+
+                        /* look at every touch that changed position */
+                        for (touch in event.changedTouches) {
+                             start = touches[touch.identifier];
+                             end = touch;
+                             if (start.clientY > p1ybound && end.clientY > p1ybound) {
+                                /* player 1 moved */
+                                p1x += (end.clientX - start.clientX) / width;
+                                p1x = p1x < paddlexmin ? paddlexmin : p1x > paddlexmax ? paddlexmax : p1x;
+                             }
+                             if (start.clientY < p2ybound && end.clientY < p2ybound) {
+                                /* player 2 moved */
+                                p2x += (end.clientX - start.clientX) / width;
+                                p2x = p2x < paddlexmin ? paddlexmin : p2x > paddlexmax ? paddlexmax : p2x;
+                             }
+                        }
+                    }
+                    touches = {};
+                    for (touch in event.touches) {
+                        touches[touch.identifier] = {"clientX": touch.clientX, "clientY": touch.clientY};
+                    }
+                });
+                setInterval(render, 16);
+            });
+
+        //}();
+    </script>
+</body>
+</html>
