@@ -27,10 +27,13 @@
                 context.clearRect(0, 0, width, height);
 
                 /* draw p1 */
-                context.rect((p1x - (paddlelength / 2)) * width, p1ybound * height, (p1x + (paddlelength / 2)) * width, (p1ybound + paddlewidth) * height);
+//                context.rect((p1x - (paddlelength / 2)) * width, p1ybound * height, (p1x + (paddlelength / 2)) * width, (p1ybound + paddlewidth) * height);
 
                 /* draw p2 */
-                context.rect((p2x - (paddlelength / 2)) * width, p2ybound * height, (p2x + (paddlelength / 2)) * width, (p2ybound - paddlewidth) * height);
+//                context.rect((p2x - (paddlelength / 2)) * width, p2ybound * height, (p2x + (paddlelength / 2)) * width, (p2ybound - paddlewidth) * height);
+                for (touch in touches) {
+                    context.rect(touches[touch].clientX - 5, touches[touch].clientY - 5, touches[touch].clientX + 5, touches[touch].clientY + 5);
+                }
 
                 context.stroke();
             }
@@ -43,28 +46,28 @@
                 canvas.addEventListener('touchmove', function(event) {
                     event.preventDefault();
 
-                    if (touches != null) {
-
-                        /* look at every touch that changed position */
-                        for (touch in event.changedTouches) {
-                             start = touches[touch.identifier];
-                             end = touch;
-                             if (start.clientY > p1ybound && end.clientY > p1ybound) {
-                                /* player 1 moved */
-                                p1x += (end.clientX - start.clientX) / width;
-                                p1x = p1x < paddlexmin ? paddlexmin : p1x > paddlexmax ? paddlexmax : p1x;
-                             }
-                             if (start.clientY < p2ybound && end.clientY < p2ybound) {
-                                /* player 2 moved */
-                                p2x += (end.clientX - start.clientX) / width;
-                                p2x = p2x < paddlexmin ? paddlexmin : p2x > paddlexmax ? paddlexmax : p2x;
-                             }
-                        }
-                    }
-                    touches = {};
-                    for (touch in event.touches) {
-                        touches[touch.identifier] = {"clientX": touch.clientX, "clientY": touch.clientY};
-                    }
+//                   if (touches != null) {
+//
+//                       /* look at every touch that changed position */
+//                       for (touch in event.changedTouches) {
+//                            start = touches[touch.identifier];
+//                            end = touch;
+//                            if (start.clientY > p1ybound && end.clientY > p1ybound) {
+//                               /* player 1 moved */
+//                               p1x += (end.clientX - start.clientX) / width;
+//                               p1x = p1x < paddlexmin ? paddlexmin : p1x > paddlexmax ? paddlexmax : p1x;
+//                            }
+//                            if (start.clientY < p2ybound && end.clientY < p2ybound) {
+//                               /* player 2 moved */
+//                               p2x += (end.clientX - start.clientX) / width;
+//                               p2x = p2x < paddlexmin ? paddlexmin : p2x > paddlexmax ? paddlexmax : p2x;
+//                            }
+//                       }
+//                   }
+                   touches = {};
+                   for (touch in event.touches) {
+                       touches[touch.identifier] = {"clientX": touch.clientX, "clientY": touch.clientY};
+                   }
                 });
                 setInterval(render, 16);
             });
