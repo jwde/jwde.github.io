@@ -27,12 +27,14 @@
             function render() {
                 if (frame) return;
                 frame = true;
-                width = window.innerWidth;
-                height = window.inerHeight;
-                canvas.style.width = w+"px";
-                canvas.style.height = h+"px";
-                canvas.width = width;
-                canvas.height = height;
+                if (width != window.innerWidth || height != window.innerHeight) {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    canvas.style.width = w+"px";
+                    canvas.style.height = h+"px";
+                    canvas.width = width;
+                    canvas.height = height;
+                }
                 context.clearRect(0, 0, width, height);
 
                 /* draw p1 */
