@@ -11,7 +11,7 @@
         //function() {
             var canvas;
             var context;
-            var touches = null;
+            var touches = [];
             var p1x = .5;
             var p2x = .5;
             var p1ybound = .8;
@@ -25,7 +25,6 @@
             var frame = false;
 
             function render() {
-                console.log("frame started");
                 if (frame) return;
                 frame = true;
                 if (width != window.innerWidth || height != window.innerHeight) {
@@ -57,10 +56,8 @@
                     context.strokeStyle = "rgba(0, 0, 200, 0.8)";
                     context.stroke();
                 }
-
 //                context.stroke();
                 frame = false;
-                console.log("frame finished");
             }
 
             $(document).ready(function() {
