@@ -24,6 +24,8 @@
             var height = window.innerHeight;
 
             function render() {
+                width = window.innerWidth;
+                height = window.inerHeight;
                 context.clearRect(0, 0, width, height);
 
                 /* draw p1 */
@@ -36,7 +38,8 @@
                     var ty = touch.pageY;
                     context.beginPath();
 //                    context.rect(touches[touch].clientX - 5, touches[touch].clientY - 5, touches[touch].clientX + 5, touches[touch].clientY + 5);
-                    context.rect(tx - 5, ty - 5, tx + 5, ty + 5);
+//                    context.rect(tx - 5, ty - 5, tx + 5, ty + 5);
+                    context.arc(tx, ty, 20, 0, 2*Math.PI, true)
                     context.fillStyle = "rgba(0, 0, 200, 1.0)"
                     context.fill();
                 }
