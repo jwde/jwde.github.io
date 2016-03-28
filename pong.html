@@ -25,6 +25,7 @@
             var frame = false;
 
             function render() {
+                console.log("frame started");
                 if (frame) return;
                 frame = true;
                 if (width != window.innerWidth || height != window.innerHeight) {
@@ -34,6 +35,7 @@
                     canvas.style.height = height+"px";
                     canvas.width = width;
                     canvas.height = height;
+                    console.log("width or height changed");
                 }
                 context.clearRect(0, 0, width, height);
 
@@ -58,6 +60,7 @@
 
 //                context.stroke();
                 frame = false;
+                console.log("frame finished");
             }
 
             $(document).ready(function() {
