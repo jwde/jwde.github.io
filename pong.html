@@ -32,7 +32,13 @@
                 /* draw p2 */
 //                context.rect((p2x - (paddlelength / 2)) * width, p2ybound * height, (p2x + (paddlelength / 2)) * width, (p2ybound - paddlewidth) * height);
                 for (touch in touches) {
-                    context.rect(touches[touch].clientX - 5, touches[touch].clientY - 5, touches[touch].clientX + 5, touches[touch].clientY + 5);
+                    var tx = touch.pageX;
+                    var ty = touch.pageY;
+                    context.beginPath();
+//                    context.rect(touches[touch].clientX - 5, touches[touch].clientY - 5, touches[touch].clientX + 5, touches[touch].clientY + 5);
+                    context.rect(tx - 5, ty - 5, tx + 5, ty + 5);
+                    context.fillStyle = "rgba(0, 0, 200, 1.0)"
+                    context.fill();
                 }
 
                 context.stroke();
@@ -64,11 +70,19 @@
 //                            }
 //                       }
 //                   }
-                   touches = {};
-                   for (touch in event.touches) {
-                       touches[touch.identifier] = {"clientX": touch.clientX, "clientY": touch.clientY};
-                   }
+//                   touches = {};
+//                   for (touch in event.touches) {
+//                       touches[touch.identifier] = {"clientX": touch.clientX, "clientY": touch.clientY};
+//                   }
+                     touches = event.touches;
                 });
+                canvas.addEventListener('touchend', function() {
+                    
+                });
+                canvas.addEventListener('touchstart', function() {
+                    
+                });
+
                 setInterval(render, 16);
             });
 
