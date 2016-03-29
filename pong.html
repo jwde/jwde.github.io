@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Mobile Pong</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-</head>
-<body>
-    <canvas id="canvas"></canvas>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <style type="text/css">
+    body {margin: 0px; overflow: hidden;}
+    canvas {border: 1px solid black;}
+    </style>
     <script src="jquery-1.12.1.min.js"></script>
     <script>
-        //function() {
             var canvas;
             var context;
             var touches = [];
@@ -16,8 +16,8 @@
             var p2x = .5;
             var p1ybound = .8;
             var p2ybound = .2;
-            var paddlelength = .2;
-            var paddlewidth = .05;
+            var paddlelength = .25;
+            var paddlewidth = .02;
             var paddlexmin = paddlelength / 2;
             var paddlexmax = 1 - paddlelength / 2;
             var width = 0;
@@ -38,26 +38,35 @@
                 }
                 context.clearRect(0, 0, width, height);
 
-                /* draw p1 */
-//                context.rect((p1x - (paddlelength / 2)) * width, p1ybound * height, (p1x + (paddlelength / 2)) * width, (p1ybound + paddlewidth) * height);
-
-                /* draw p2 */
-//                context.rect((p2x - (paddlelength / 2)) * width, p2ybound * height, (p2x + (paddlelength / 2)) * width, (p2ybound - paddlewidth) * height);
-                for (touch in touches) {
+                for (var i = 0; i < touches.length; ++i) {
+                    var touch = touches[i];
                     var tx = touch.pageX;
                     var ty = touch.pageY;
-                    context.beginPath();
-//                    context.rect(touches[touch].clientX - 5, touches[touch].clientY - 5, touches[touch].clientX + 5, touches[touch].clientY + 5);
-//                    context.rect(tx - 5, ty - 5, tx + 5, ty + 5);
-                    context.arc(tx, ty, 20, 0, 2*Math.PI, true)
-                    context.fillStyle = "rgba(0, 0, 200, 0.2)"
-                    context.fill();
-                    context.lineWidth = 2.0;
-                    context.strokeStyle = "rgba(0, 0, 200, 0.8)";
-                    context.stroke();
-                    console.log(touch);
+                    if (ty / height > p1ybound) {
+                        p1x = tx / width;
+                    }
+                    if (ty / height < p2ybound) {
+                        p2x = tx / width;
+                    }
                 }
-//                context.stroke();
+
+                context.beginPath();
+                // draw p1
+                context.rect(p1x * width - .5 * width * paddlelength, (p1ybound + .5 * (1 - p1ybound)) * height, width * paddlelength, height * paddlewidth);
+                context.fillStyle = "rgba(255, 0, 0, 0.5)"
+                context.fill();
+                context.lineWidth = 2.0;
+                context.strokeStyle = "rgba(255, 0, 0, 1)";
+                context.stroke();
+                context.closePath();
+                // draw p2
+                context.beginPath();
+                context.rect(p2x * width - .5 * width * paddlelength, .5 * p2ybound * height, width * paddlelength, height * paddlewidth);
+                context.fillStyle = "rgba(0, 0, 255, 0.5)"
+                context.fill();
+                context.lineWidth = 2.0;
+                context.strokeStyle = "rgba(0, 0, 255, 1)";
+                context.stroke();
                 frame = false;
             }
 
@@ -68,42 +77,18 @@
                 /* handle user input */
                 canvas.addEventListener('touchmove', function(event) {
                     event.preventDefault();
-
-//                   if (touches != null) {
-//
-//                       /* look at every touch that changed position */
-//                       for (touch in event.changedTouches) {
-//                            start = touches[touch.identifier];
-//                            end = touch;
-//                            if (start.clientY > p1ybound && end.clientY > p1ybound) {
-//                               /* player 1 moved */
-//                               p1x += (end.clientX - start.clientX) / width;
-//                               p1x = p1x < paddlexmin ? paddlexmin : p1x > paddlexmax ? paddlexmax : p1x;
-//                            }
-//                            if (start.clientY < p2ybound && end.clientY < p2ybound) {
-//                               /* player 2 moved */
-//                               p2x += (end.clientX - start.clientX) / width;
-//                               p2x = p2x < paddlexmin ? paddlexmin : p2x > paddlexmax ? paddlexmax : p2x;
-//                            }
-//                       }
-//                   }
-//                   touches = {};
-//                   for (touch in event.touches) {
-//                       touches[touch.identifier] = {"clientX": touch.clientX, "clientY": touch.clientY};
-//                   }
                      touches = event.touches;
                 });
                 canvas.addEventListener('touchend', function() {
-                    console.log("touch finished");
                 });
                 canvas.addEventListener('touchstart', function() {
-                    console.log("touch started");
                 });
 
                 setInterval(render, 16);
             });
-
-        //}();
     </script>
+</head>
+<body>
+    <canvas id="canvas" width="300" height="300" style="top:0px; left:0px; width: 300px; height: 300px;"></canvas>
 </body>
 </html>
