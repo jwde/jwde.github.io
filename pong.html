@@ -55,6 +55,7 @@
                     context.lineWidth = 2.0;
                     context.strokeStyle = "rgba(0, 0, 200, 0.8)";
                     context.stroke();
+                    console.log(touch);
                 }
 //                context.stroke();
                 frame = false;
@@ -93,7 +94,7 @@
                      touches = event.touches;
                 });
                 canvas.addEventListener('touchend', function() {
-                    console.log("touch finished")
+                    console.log("touch finished");
                 });
                 canvas.addEventListener('touchstart', function() {
                     console.log("touch started");
