@@ -1,94 +1,138 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mobile Pong</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no">
-    <style type="text/css">
-    body {margin: 0px; overflow: hidden;}
-    canvas {border: 1px solid black;}
-    </style>
-    <script src="jquery-1.12.1.min.js"></script>
-    <script>
-            var canvas;
-            var context;
-            var touches = [];
-            var p1x = .5;
-            var p2x = .5;
-            var p1ybound = .8;
-            var p2ybound = .2;
-            var paddlelength = .25;
-            var paddlewidth = .02;
-            var paddlexmin = paddlelength / 2;
-            var paddlexmax = 1 - paddlelength / 2;
-            var width = 0;
-            var height = 0;
-            var frame = false;
+<title>Mobile Pong</title>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<style type="text/css">
+body {margin: 0px; overflow: hidden;}
+canvas {border: 1px solid black;}
+</style>
+<script src="jquery-1.12.1.min.js"></script>
+<script>
+var canvas;
+var context;
+var touches = [];
+var p1x = .5;
+var p2x = .5;
+var p1ybound = .8;
+var p2ybound = .2;
+var p1y = (p1ybound + .5 * (1 - p1ybound));
+var p2y = .5 * p2ybound;
+var paddlelength = .25;
+var paddlewidth = .02;
+var paddlexmin = paddlelength / 2;
+var paddlexmax = 1 - paddlelength / 2;
+var ballx = .5;
+var bally = .5;
+var ballvx = .001;
+var ballvy = .003;
+// ballsize is absolute
+var ballsize = 15;
+var width = 0;
+var height = 0;
+var frame = false;
 
-            function render() {
-                if (frame) return;
-                frame = true;
-                if (width != window.innerWidth || height != window.innerHeight) {
-                    width = window.innerWidth;
-                    height = window.innerHeight;
-                    canvas.style.width = width+"px";
-                    canvas.style.height = height+"px";
-                    canvas.width = width;
-                    canvas.height = height;
-                    console.log("width or height changed");
-                }
-                context.clearRect(0, 0, width, height);
+function physics() {
+    if (bally < p1y && bally + ballvy >= p1y && 
+        ballx < p1x + paddlelength / 2 && ballx > p1x - paddlelength / 2) {
+        ballvy *= -1;
+        ballvx += (ballx - p1x) * .025;
+    }
+    if (bally > p2y && bally + ballvy <= p2y && 
+        ballx < p2x + paddlelength / 2 && ballx > p2x - paddlelength / 2) {
+        ballvy *= -1;
+        ballvx += (ballx - p2x) * .025;
+    }
+    ballx += ballvx;
+    bally += ballvy;
+    if (ballx > 1 || ballx < 0) {
+        ballvx *= -1;
+    }
+    if (bally > 1 || bally < 0) {
+        ballx = .5;
+        bally = .5;
+    }
+}
 
-                for (var i = 0; i < touches.length; ++i) {
-                    var touch = touches[i];
-                    var tx = touch.pageX;
-                    var ty = touch.pageY;
-                    if (ty / height > p1ybound) {
-                        p1x = tx / width;
-                    }
-                    if (ty / height < p2ybound) {
-                        p2x = tx / width;
-                    }
-                }
+function render() {
+    physics();
+    if (frame) return;
+    frame = true;
+    if (width != window.innerWidth || height != window.innerHeight) {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.style.width = width+"px";
+        canvas.style.height = height+"px";
+        canvas.width = width;
+        canvas.height = height;
+        console.log("width or height changed");
+    }
+    context.clearRect(0, 0, width, height);
 
-                context.beginPath();
-                // draw p1
-                context.rect(p1x * width - .5 * width * paddlelength, (p1ybound + .5 * (1 - p1ybound)) * height, width * paddlelength, height * paddlewidth);
-                context.fillStyle = "rgba(255, 0, 0, 0.5)"
-                context.fill();
-                context.lineWidth = 2.0;
-                context.strokeStyle = "rgba(255, 0, 0, 1)";
-                context.stroke();
-                context.closePath();
-                // draw p2
-                context.beginPath();
-                context.rect(p2x * width - .5 * width * paddlelength, .5 * p2ybound * height, width * paddlelength, height * paddlewidth);
-                context.fillStyle = "rgba(0, 0, 255, 0.5)"
-                context.fill();
-                context.lineWidth = 2.0;
-                context.strokeStyle = "rgba(0, 0, 255, 1)";
-                context.stroke();
-                frame = false;
-            }
+    for (var i = 0; i < touches.length; ++i) {
+        var touch = touches[i];
+        var tx = touch.pageX;
+        var ty = touch.pageY;
+        if (ty / height > p1ybound) {
+            p1x = tx / width;
+        }
+        if (ty / height < p2ybound) {
+            p2x = tx / width;
+        }
+    }
 
-            $(document).ready(function() {
-                canvas = document.getElementById('canvas');
-                context = canvas.getContext('2d'); 
+    // draw p1
+    context.beginPath();
+    context.rect(p1x * width - .5 * width * paddlelength, p1y * height, width * paddlelength, height * paddlewidth);
+    context.fillStyle = "rgba(255, 0, 0, 0.5)";
+    context.fill();
+    context.lineWidth = 2.0;
+    context.strokeStyle = "rgba(255, 0, 0, 1)";
+    context.stroke();
+    context.closePath();
 
-                /* handle user input */
-                canvas.addEventListener('touchmove', function(event) {
-                    event.preventDefault();
-                     touches = event.touches;
-                });
-                canvas.addEventListener('touchend', function() {
-                });
-                canvas.addEventListener('touchstart', function() {
-                });
+    // draw p2
+    context.beginPath();
+    context.rect(p2x * width - .5 * width * paddlelength, p2y * height, width * paddlelength, height * paddlewidth);
+    context.fillStyle = "rgba(0, 0, 255, 0.5)";
+    context.fill();
+    context.lineWidth = 2.0;
+    context.strokeStyle = "rgba(0, 0, 255, 1)";
+    context.stroke();
+    context.closePath();
 
-                setInterval(render, 16);
-            });
-    </script>
+    // draw the ball
+    context.beginPath();
+    context.rect(ballx * width - .5 * ballsize, bally * height - .5 * ballsize, ballsize, ballsize);
+    context.fillStyle = "rgba(0, 0, 0, 0.7)";
+    context.fill();
+    context.lineWidth = 2.0;
+    context.strokeStyle = "rgba(0, 0, 0, 1)";
+    context.stroke();
+    context.closePath();
+
+    frame = false;
+}
+
+$(document).ready(function() {
+        canvas = document.getElementById('canvas');
+        context = canvas.getContext('2d'); 
+
+        /* handle user input */
+        canvas.addEventListener('touchmove', function(event) {
+            event.preventDefault();
+            touches = event.touches;
+        });
+        canvas.addEventListener('touchend', function() {
+        });
+        canvas.addEventListener('touchstart', function() {
+        });
+
+        setInterval(render, 16);
+        });
+</script>
 </head>
 <body>
-    <canvas id="canvas" width="300" height="300" style="top:0px; left:0px; width: 300px; height: 300px;"></canvas>
+<canvas id="canvas" width="300" height="300" style="top:0px; left:0px; width: 300px; height: 300px;"></canvas>
 </body>
 </html>
