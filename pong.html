@@ -20,8 +20,8 @@
             var paddlewidth = .05;
             var paddlexmin = paddlelength / 2;
             var paddlexmax = 1 - paddlelength / 2;
-            var width = window.innerWidth;
-            var height = window.innerHeight;
+            var width = 0;
+            var height = 0;
             var frame = false;
 
             function render() {
@@ -93,10 +93,10 @@
                      touches = event.touches;
                 });
                 canvas.addEventListener('touchend', function() {
-                    
+                    console.log("touch finished")
                 });
                 canvas.addEventListener('touchstart', function() {
-                    
+                    console.log("touch started");
                 });
 
                 setInterval(render, 16);
