@@ -142,6 +142,7 @@ function render() {
 $(document).ready(function() {
         canvas = document.getElementById('canvas');
         context = canvas.getContext('2d'); 
+        window.screen.lockOrientation('portrait-primary');
 
         /* handle user input */
         canvas.addEventListener('touchmove', function(event) {
