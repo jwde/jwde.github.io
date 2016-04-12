@@ -25,8 +25,8 @@ var paddlexmax = 1 - paddlelength / 2;
 var ballx = .5;
 var bally = .5;
 var ballvx = .001;
-var ballvy = .003;
-var ballvybase = .003;
+var ballvy = .006;
+var ballvybase = .006;
 // ballsize is absolute
 var ballsize = 15;
 var width = 0;
@@ -47,12 +47,12 @@ function p2scoreevent() {
 function physics() {
     if (bally < p1y && bally + ballvy >= p1y && 
         ballx < p1x + paddlelength / 2 && ballx > p1x - paddlelength / 2) {
-        ballvy *= -1.1;
+        ballvy *= -1;
         ballvx += (ballx - p1x) * .025;
     }
     if (bally > p2y && bally + ballvy <= p2y && 
         ballx < p2x + paddlelength / 2 && ballx > p2x - paddlelength / 2) {
-        ballvy *= -1.1;
+        ballvy *= -1;
         ballvx += (ballx - p2x) * .025;
     }
     ballx += ballvx;
@@ -72,6 +72,8 @@ function physics() {
 
 function render() {
     physics();
+    ballvy = ballvy + ballvy * .000001;
+    ballvx = ballvx + ballvx * .000001;
     if (frame) return;
     frame = true;
     if (width != window.innerWidth || height != window.innerHeight) {
