@@ -33,7 +33,8 @@ var width = 0;
 var height = 0;
 var frame = false;
 var startingtime = new Date().getTime();
-var endgame = false;
+var paused = false;
+var released = false;
 var lasttime = new Date().getTime();
 
 function p1scoreevent() {
@@ -61,12 +62,19 @@ function physics() {
         ballvx *= -1;
     }
     if (bally > 1 || bally < 0) {
+        if (bally > 1) {
+            p2scoreevent();
+        }
+        else {
+            p1scoreevent();
+        }
         ballx = .5;
         bally = .5;
         ballvx = 0;
         //ballvy = ballvybase;
         ballvy = 0;
-        endgame = true;
+        paused = true;
+        released = false;
     }
 }
 
@@ -87,16 +95,30 @@ function render() {
     }
     context.clearRect(0, 0, width, height);
 
+    if (touches.length == 0) {
+        released = true;
+    }
+    var p1ready = false;
+    var p2ready = false;
     for (var i = 0; i < touches.length; ++i) {
         var touch = touches[i];
         var tx = touch.pageX;
         var ty = touch.pageY;
         if (ty / height > p1ybound) {
             p1x = tx / width;
+            if (paused && released) {
+                p1ready = true;
+            }
         }
         if (ty / height < p2ybound) {
             p2x = tx / width;
+            if (paused && released) {
+                p1ready = true;
+            }
         }
+    }
+    if (p1ready && p2ready) {
+        paused = false;
     }
 
     // draw p1
@@ -129,12 +151,14 @@ function render() {
     context.stroke();
     context.closePath();
 
+    /*
     // draw timer
     context.font = "30px Arial";
     if (!endgame) {
         lasttime = new Date().getTime();
     }
     context.fillText((lasttime - startingtime) / 1000, width / 10, height / 2);
+    */
 
     frame = false;
 }
