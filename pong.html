@@ -246,7 +246,7 @@ function renderfinal(p1score, p2score) {
     renderpaddles();
 
     context.save();
-    if (p1score >= 3) {
+    if (p2score >= 3) {
         context.beginPath();
         context.font = "30px Verdana";
         context.fillText("Winner", width / 4, height * 3 / 4);
