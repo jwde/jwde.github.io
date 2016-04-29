@@ -115,9 +115,9 @@ function rendertally(num, x1, y1, x2, y2, stroke, fill) {
         context.rect((x1 + ((x2 - x1) / 4)) * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
         context.rect((x1 + (3 * (x2 - x1) / 4)) * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
     } else if (num == 3) {
-        context.rect(x1 * width, y1 * height - tallywidth / 2, tallywidth, tallyheight);
+        context.rect(x1 * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
         context.rect((x1 + ((x2 - x1) / 2)) * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
-        context.rect(x2 * width, y1 * height - tallywidth / 2, tallywidth, tallyheight);
+        context.rect(x2 * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
     }
     context.fillStyle = fill;
     context.fill();
@@ -220,7 +220,7 @@ function renderpause(p1score, p2score) {
     if (touched[0] == 0 && touched[1] == 0) {
         ret = "released";
     }
-    if (touched[0] == 1 && touched[1] == 1) {
+    if (touched[0] == 1 || touched[1] == 1) {
         ret = "startgame";
     }
     renderscore(p1score, p2score);
@@ -292,7 +292,7 @@ function finalresult(p1score, p2score) {
 }
 
 function playgame() {
-    startscreen(function() {
+//    startscreen(function() {
         function nextpoint(p1score, p2score, callback) {
             if (p1score >= 3 || p2score >= 3) {
                 callback(p1score, p2score);
@@ -312,7 +312,7 @@ function playgame() {
             });
         }
         nextpoint(0, 0, finalresult);
-    });
+//    });
 }
 
 $(document).ready(function() {
