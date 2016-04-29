@@ -349,9 +349,14 @@ function playgame() {
             } else {
                 p2s += 1;
             }
-            pausescreen(p1s, p2s, function() {
-                nextpoint(p1s, p2s, callback)
-            });
+            if (p1s < 3 && p2s < 3) {
+                pausescreen(p1s, p2s, function() {
+                    nextpoint(p1s, p2s, callback)
+                });
+            } else {
+                callback(p1score, p2score);
+                return;
+            }
         });
     }
     nextpoint(0, 0, finalresult);
