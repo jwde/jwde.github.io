@@ -105,6 +105,33 @@ function renderball() {
     context.closePath();
 }
 
+function rendertally(num, x1, y1, x2, y2, stroke, fill) {
+    var tallywidth = (x2 - x1) * width / 10;
+    var tallyheight = (y2 - y1) * height;
+    context.beginPath();
+    if (num == 1) {
+        context.rect((x1 + ((x2 - x1) / 2)) * width, y1 * height, tallywidth, tallyheight);
+    } else if (num == 2) {
+        context.rect((x1 + ((x2 - x1) / 4)) * width, y1 * height, tallywidth, tallyheight);
+        context.rect((x1 + (3 * (x2 - x1) / 4)) * width, y1 * height, tallywidth, tallyheight);
+    } else if (num == 3) {
+        context.rect(x1 * width, y1 * height, tallywidth, tallyheight);
+        context.rect((x1 + ((x2 - x1) / 2)) * width, y1 * height, tallywidth, tallyheight);
+        context.rect(x2 * width, y1 * height, tallywidth, tallyheight);
+    }
+    context.fillStyle = fill;
+    context.fill();
+    context.lineWidth = 2.0;
+    context.strokeStyle = stroke;
+    context.stroke();
+    context.closePath();
+}
+
+function renderscore(p1score, p2score) {
+    rendertally(p1score, width / 5, .55, 4 * width / 5, .75, "rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 1)")
+    rendertally(p2score, width / 5, .25, 4 * width / 5, .45, "rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 1)")
+}
+
 function processtouches() {
 /*    if (touches.length == 0) {
         released = true;
@@ -149,7 +176,7 @@ function updatedimensions() {
     }
 }
 
-function renderpoint() {
+function renderpoint(p1score, p2score) {
     var scored = physics();
     if (scored != "continue") {
         return scored;
@@ -163,6 +190,8 @@ function renderpoint() {
 
     processtouches();
 
+    renderscore(p1score, p2score);
+
     renderpaddles();
 
     renderball();
@@ -171,23 +200,6 @@ function renderpoint() {
     return "continue";
 }
 
-function playpoint(callback) {
-    p1x = .5;
-    p2x = .5;
-    ballx = .5;
-    bally = .5;
-    ballvx = .001;
-    ballvy = .006;
-    p1scored = false;
-    p2scored = false;
-    renderint = setInterval(function() {
-        var result = renderpoint();        
-        if (result != "continue") {
-            clearInterval(renderint);
-            callback(result);
-        }
-    }, 16);
-}
 
 function renderstart() {
     updatedimensions();
@@ -200,8 +212,16 @@ function renderstart() {
     return "continue";
 }
 
-function renderpause() {
-
+function renderpause(p1score, p2score) {
+    updatedimensions();
+    context.clearRect(0, 0, width, height);
+    touched = processtouches();
+    if (touched[0] == 1 && touched[1] == 1) {
+        return "startgame";
+    }
+    renderscore(p1score, p2score);
+    renderpaddles();
+    return "continue";
 }
 
 function renderfinal() {
@@ -224,6 +244,24 @@ function startscreen(callback) {
     }, 16);
 }
 
+function playpoint(p1score, p2score, callback) {
+    p1x = .5;
+    p2x = .5;
+    ballx = .5;
+    bally = .5;
+    ballvx = .001;
+    ballvy = .006;
+    p1scored = false;
+    p2scored = false;
+    renderint = setInterval(function() {
+        var result = renderpoint(p1score, p2score);
+        if (result != "continue") {
+            clearInterval(renderint);
+            callback(result);
+        }
+    }, 16);
+}
+
 function pausescreen(p1score, p2score, callback) {
     callback();
 }
@@ -239,7 +277,7 @@ function playgame() {
                 callback(p1score, p2score);
                 return;
             }
-            playpoint(function(result) {
+            playpoint(p1score, p2score, function(result) {
                 var p1s = p1score;
                 var p2s = p2score;
                 if (result == "p1") {
