@@ -172,7 +172,6 @@ function updatedimensions() {
         canvas.style.height = height+"px";
         canvas.width = width;
         canvas.height = height;
-        console.log("width or height changed");
     }
 }
 
@@ -220,7 +219,7 @@ function renderpause(p1score, p2score) {
     if (touched[0] == 0 && touched[1] == 0) {
         ret = "released";
     }
-    if (touched[0] == 1 || touched[1] == 1) {
+    if (touched[0] == 1 && touched[1] == 1) {
         ret = "startgame";
     }
     renderscore(p1score, p2score);
@@ -230,8 +229,43 @@ function renderpause(p1score, p2score) {
     return ret;
 }
 
-function renderfinal() {
+function renderfinal(p1score, p2score) {
+    var ret = "continue";
+    updatedimensions();
+    context.clearRect(0, 0, width, height);
+    touched = processtouches();
+    if (touched[0] == 0 && touched[1] == 0) {
+        ret = "released";
+    }
+    if (touched[0] == 1 && touched[1] == 1) {
+        ret = "startgame";
+    }
+    renderscore(p1score, p2score);
+    p1x = .5;
+    p2x = .5;
+    renderpaddles();
 
+    context.save();
+    if (p1score >= 3) {
+        context.beginPath();
+        context.font = "30px Verdana";
+        context.fillText("Winner", width / 4, height * 3 / 4);
+    } else {
+        context.translate(width, height);
+        context.rotate(Math.PI);
+        context.beginPath();
+        context.font = "30px Verdana";
+        context.fillText("Winner", width / 4, height * 3 / 4);
+    }
+    context.fillStyle = "rgba(0, 0, 0, 1)";
+    context.fill();
+    context.lineWidth = 2.0;
+    context.strokeStyle = "rgba(0, 0, 0, 1)";
+    context.stroke();
+    context.restore();
+    context.closePath();
+
+    return ret;
 }
 
 var startdone = false;
@@ -272,13 +306,10 @@ function pausescreen(p1score, p2score, callback) {
     renderint = setInterval(function() {
         var result = renderpause(p1score, p2score);
         if (result == "released") {
-            console.log("released");
             clearInterval(renderint);
             renderint2 = setInterval(function() {
                 var result2 = renderpause(p1score, p2score);
-                console.log(result2);
                 if (result2 == "startgame") {
-                    console.log("startgame");
                     clearInterval(renderint2);
                     callback();
                 }
@@ -288,31 +319,46 @@ function pausescreen(p1score, p2score, callback) {
 }
 
 function finalresult(p1score, p2score) {
-    gameover = true;
+    renderint = setInterval(function() {
+        var result = renderfinal(p1score, p2score);
+        if (result == "released") {
+            clearInterval(renderint);
+            renderint2 = setInterval(function() {
+                var result2 = renderfinal(p1score, p2score);
+                if (result2 == "startgame") {
+                    clearInterval(renderint2);
+                    playgame();
+                }
+            }, 16);
+        }
+    }, 16);
+
 }
 
 function playgame() {
-//    startscreen(function() {
-        function nextpoint(p1score, p2score, callback) {
-            if (p1score >= 3 || p2score >= 3) {
-                callback(p1score, p2score);
-                return;
-            }
-            playpoint(p1score, p2score, function(result) {
-                var p1s = p1score;
-                var p2s = p2score;
-                if (result == "p1") {
-                    p1s += 1;
-                } else {
-                    p2s += 1;
-                }
-                pausescreen(p1s, p2s, function() {
-                    nextpoint(p1s, p2s, callback)
-                });
-            });
+    function nextpoint(p1score, p2score, callback) {
+        if (p1score >= 3 || p2score >= 3) {
+            callback(p1score, p2score);
+            return;
         }
-        nextpoint(0, 0, finalresult);
-//    });
+        playpoint(p1score, p2score, function(result) {
+            var p1s = p1score;
+            var p2s = p2score;
+            if (result == "p1") {
+                p1s += 1;
+            } else {
+                p2s += 1;
+            }
+            pausescreen(p1s, p2s, function() {
+                nextpoint(p1s, p2s, callback)
+            });
+        });
+    }
+    nextpoint(0, 0, finalresult);
+}
+
+function firststart() {
+    startscreen(playgame);
 }
 
 $(document).ready(function() {
@@ -331,12 +377,13 @@ $(document).ready(function() {
             touches = event.touches;
         });
 
-        setInterval(function() {
+/*        setInterval(function() {
             if (gameover) {
                 gameover = false;
                 playgame();
             }
-        }, 50)
+        }, 50)*/
+        firststart();
         });
 </script>
 </head>
