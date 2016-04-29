@@ -212,21 +212,22 @@ function renderstart() {
     return "continue";
 }
 
-function renderpause(p1score, p2score, released) {
+function renderpause(p1score, p2score) {
+    var ret = "continue";
     updatedimensions();
     context.clearRect(0, 0, width, height);
     touched = processtouches();
     if (touched[0] == 0 && touched[1] == 0) {
-        return "released";
+        ret = "released";
     }
-    if (touched[0] == 1 && touched[1] == 1 && released) {
-        return "startgame";
+    if (touched[0] == 1 && touched[1] == 1) {
+        ret = "startgame";
     }
     renderscore(p1score, p2score);
     p1x = .5;
     p2x = .5;
     renderpaddles();
-    return "continue";
+    return ret;
 }
 
 function renderfinal() {
@@ -269,12 +270,15 @@ function playpoint(p1score, p2score, callback) {
 
 function pausescreen(p1score, p2score, callback) {
     renderint = setInterval(function() {
-        var result = renderpause(p1score, p2score, false);
+        var result = renderpause(p1score, p2score);
         if (result == "released") {
+            console.log("released");
             clearInterval(renderint);
             renderint2 = setInterval(function() {
-                var result2 = renderpause(p1score, p2score, true);
-                if (result == "startgame") {
+                var result2 = renderpause(p1score, p2score);
+                console.log(result2);
+                if (result2 == "startgame") {
+                    console.log("startgame");
                     clearInterval(renderint2);
                     callback();
                 }
@@ -288,7 +292,7 @@ function finalresult(p1score, p2score) {
 }
 
 function playgame() {
-//    startscreen(function() {
+    startscreen(function() {
         function nextpoint(p1score, p2score, callback) {
             if (p1score >= 3 || p2score >= 3) {
                 callback(p1score, p2score);
@@ -308,7 +312,7 @@ function playgame() {
             });
         }
         nextpoint(0, 0, finalresult);
-//    });
+    });
 }
 
 $(document).ready(function() {
