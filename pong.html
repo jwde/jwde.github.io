@@ -324,9 +324,10 @@ $(document).ready(function() {
             event.preventDefault();
             touches = event.touches;
         });
-        canvas.addEventListener('touchend', function() {
+        canvas.addEventListener('touchend', function(event) {
+            touches = event.touches;
         });
-        canvas.addEventListener('touchstart', function() {
+        canvas.addEventListener('touchstart', function(event) {
             touches = event.touches;
         });
 
