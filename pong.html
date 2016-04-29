@@ -56,8 +56,10 @@ function physics() {
         ballvy *= -1;
         ballvx += (ballx - p2x) * .025;
     }
-    ballx += ballvx;
-    bally += ballvy;
+    if (!paused) {
+        ballx += ballvx;
+        bally += ballvy;
+    }
     if (ballx > 1 || ballx < 0) {
         ballvx *= -1;
     }
@@ -71,8 +73,7 @@ function physics() {
         ballx = .5;
         bally = .5;
         ballvx = 0;
-        //ballvy = ballvybase;
-        ballvy = 0;
+        ballvy = ballvybase;
         paused = true;
         released = false;
     }
