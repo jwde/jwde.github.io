@@ -36,6 +36,9 @@ var startingtime = new Date().getTime();
 var paused = false;
 var released = false;
 var lasttime = new Date().getTime();
+var p1scored = false;
+var p2scored = false;
+var gameover = true;
 
 function p1scoreevent() {
 
@@ -65,63 +68,16 @@ function physics() {
     }
     if (bally > 1 || bally < 0) {
         if (bally > 1) {
-            p2scoreevent();
+            return "p1";
         }
         else {
-            p1scoreevent();
+            return "p2";
         }
-        ballx = .5;
-        bally = .5;
-        ballvx = 0;
-        ballvy = ballvybase;
-        paused = true;
-        released = false;
     }
+    return "continue";
 }
 
-function render() {
-    physics();
-    ballvy = ballvy + ballvy * .000001;
-    ballvx = ballvx + ballvx * .000001;
-    if (frame) return;
-    frame = true;
-    if (width != window.innerWidth || height != window.innerHeight) {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.style.width = width+"px";
-        canvas.style.height = height+"px";
-        canvas.width = width;
-        canvas.height = height;
-        console.log("width or height changed");
-    }
-    context.clearRect(0, 0, width, height);
-
-    if (touches.length == 0) {
-        released = true;
-    }
-    var p1ready = false;
-    var p2ready = false;
-    for (var i = 0; i < touches.length; ++i) {
-        var touch = touches[i];
-        var tx = touch.pageX;
-        var ty = touch.pageY;
-        if (ty / height > p1ybound) {
-            p1x = tx / width;
-            if (paused && released) {
-                p1ready = true;
-            }
-        }
-        if (ty / height < p2ybound) {
-            p2x = tx / width;
-            if (paused && released) {
-                p2ready = true;
-            }
-        }
-    }
-    if (p1ready && p2ready) {
-        paused = false;
-    }
-
+function renderpaddles() {
     // draw p1
     context.beginPath();
     context.rect(p1x * width - .5 * width * paddlelength, p1y * height, width * paddlelength, height * paddlewidth);
@@ -141,7 +97,9 @@ function render() {
     context.strokeStyle = "rgba(0, 0, 255, 1)";
     context.stroke();
     context.closePath();
+}
 
+function renderball() {
     // draw the ball
     context.beginPath();
     context.rect(ballx * width - .5 * ballsize, bally * height - .5 * ballsize, ballsize, ballsize);
@@ -151,17 +109,153 @@ function render() {
     context.strokeStyle = "rgba(0, 0, 0, 1)";
     context.stroke();
     context.closePath();
+}
 
-    /*
-    // draw timer
-    context.font = "30px Arial";
-    if (!endgame) {
-        lasttime = new Date().getTime();
+function processtouches() {
+/*    if (touches.length == 0) {
+        released = true;
     }
-    context.fillText((lasttime - startingtime) / 1000, width / 10, height / 2);
-    */
+    var p1ready = false;
+    var p2ready = false;*/
+    var touched = [0, 0];
+    for (var i = 0; i < touches.length; ++i) {
+        var touch = touches[i];
+        var tx = touch.pageX;
+        var ty = touch.pageY;
+        if (ty / height > p1ybound) {
+            p1x = tx / width;
+/*            if (paused && released) {
+                p1ready = true;
+            }*/
+            touched[0] = 1;
+        }
+        if (ty / height < p2ybound) {
+            p2x = tx / width;
+/*            if (paused && released) {
+                p2ready = true;
+            }*/
+            touched[1] = 1;
+        }
+    }
+/*    if (p1ready && p2ready) {
+        paused = false;
+    }*/
+    return touched;
+}
+
+function updatedimensions() {
+    if (width != window.innerWidth || height != window.innerHeight) {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.style.width = width+"px";
+        canvas.style.height = height+"px";
+        canvas.width = width;
+        canvas.height = height;
+        console.log("width or height changed");
+    }
+}
+
+function renderpoint() {
+    var scored = physics();
+    if (scored != "continue") {
+        return scored;
+    }
+    ballvy = ballvy + ballvy * .000001;
+    ballvx = ballvx + ballvx * .000001;
+    if (frame) return;
+    frame = true;
+
+    updatedimensions();
+
+    context.clearRect(0, 0, width, height);
+
+    processtouches();
+
+    renderpaddles();
+
+    renderball();
 
     frame = false;
+    return "continue";
+}
+
+function playpoint(callback) {
+    p1x = .5;
+    p2x = .5;
+    ballx = .5;
+    bally = .5;
+    ballvx = .001;
+    ballvy = .006;
+    p1scored = false;
+    p2scored = false;
+    renderint = setInterval(function() {
+        var result = renderpoint();        
+        if (result != "continue") {
+            clearInterval(renderint);
+            callback(result);
+        }
+    }, 16);
+}
+
+function renderstart() {
+    updatedimensions();
+    context.clearRect(0, 0, width, height);
+    touched = processtouches();
+    if (touched[0] == 1 && touched[1] == 1) {
+        return "startgame";
+    }
+    renderpaddles();
+    return "continue";
+}
+
+function renderpause() {
+
+}
+
+function renderfinal() {
+
+}
+
+function startscreen(callback) {
+    renderint = setInterval(function() {
+        var result = renderstart();
+        if (result == "startgame") {
+            clearInterval(startscreen);
+            callback();
+        }
+    }, 16);
+}
+
+function pausescreen(p1score, p2score, callback) {
+    callback();
+}
+
+function finalresult(p1score, p2score) {
+    gameover = true;
+}
+
+function playgame() {
+    startscreen(function() {
+        function nextpoint(p1score, p2score, callback) {
+            if (p1score >= 3 || p2score >= 3) {
+                callback(p1score, p2score);
+                return;
+            }
+            playpoint(function(result) {
+                var p1s = p1score;
+                var p2s = p2score;
+                if (result == "p1") {
+                    p1s += 1;
+                } else {
+                    p2s += 1;
+                }
+                pausescreen(p1s, p2s, function() {
+                    nextpoint(p1s, p2s, callback)
+                });
+            });
+        }
+        nextpoint(0, 0, finalresult);
+    });
 }
 
 $(document).ready(function() {
@@ -176,9 +270,15 @@ $(document).ready(function() {
         canvas.addEventListener('touchend', function() {
         });
         canvas.addEventListener('touchstart', function() {
+            touches = event.touches;
         });
 
-        setInterval(render, 16);
+        setInterval(function() {
+            if (gameover) {
+                gameover = false;
+                playgame();
+            }
+        }, 50)
         });
 </script>
 </head>
