@@ -40,16 +40,25 @@ var p1scored = false;
 var p2scored = false;
 var gameover = true;
 
+function vibrate(duration) {
+    var vibrate = navigator.vibrate || navigator.webkit.Vibrate || navigator.mozVibrate || navigator.msVibrate;
+    if (vibrate) {
+        vibrate(duration);
+    }
+}
+
 function physics() {
     if (bally < p1y && bally + ballvy >= p1y && 
         ballx < p1x + paddlelength / 2 && ballx > p1x - paddlelength / 2) {
         ballvy *= -1;
         ballvx += (ballx - p1x) * .025;
+        vibrate(100);
     }
     if (bally > p2y && bally + ballvy <= p2y && 
         ballx < p2x + paddlelength / 2 && ballx > p2x - paddlelength / 2) {
         ballvy *= -1;
         ballvx += (ballx - p2x) * .025;
+        vibrate(100);
     }
     if (!paused) {
         ballx += ballvx;
@@ -129,8 +138,8 @@ function rendertally(num, x1, y1, x2, y2, stroke, fill) {
 
 function renderscore(p1score, p2score) {
     var tallycolor = "rgba(180, 180, 180, 1.0)";
-    rendertally(p1score, .3, .55, .7, .70, tallycolor, tallycolor)
-    rendertally(p2score, .3, .30, .7, .45, tallycolor, tallycolor)
+    rendertally(p1score, .35, .55, .65, .70, tallycolor, tallycolor)
+    rendertally(p2score, .35, .30, .65, .45, tallycolor, tallycolor)
 }
 
 function processtouches() {
