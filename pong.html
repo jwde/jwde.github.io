@@ -248,11 +248,12 @@ function renderfinal(p1score, p2score) {
     if (p2score >= 3) {
         context.beginPath();
         context.font = "30px Verdana";
+        context.textAlign = "center";
         context.fillText("Winner", width / 4, height * 3 / 4);
-        context.fillStyle = "rgba(0, 0, 0, 1)";
+        context.fillStyle = "rgba(0, 0, 1, 1)";
         context.fill();
         context.lineWidth = 2.0;
-        context.strokeStyle = "rgba(0, 0, 0, 1)";
+        context.strokeStyle = "rgba(1, 0, 0, 1)";
         context.stroke();
         context.closePath();
     } else {
@@ -261,6 +262,7 @@ function renderfinal(p1score, p2score) {
         context.rotate(Math.PI);
         context.beginPath();
         context.font = "30px Verdana";
+        context.textAlign = "center";
         context.fillText("Winner", width / 4, height * 3 / 4);
         context.fillStyle = "rgba(0, 0, 0, 1)";
         context.fill();
