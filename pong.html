@@ -41,9 +41,9 @@ var p2scored = false;
 var gameover = true;
 
 function vibrate(duration) {
-    var vibrate = navigator.vibrate || navigator.webkit.Vibrate || navigator.mozVibrate || navigator.msVibrate;
-    if (vibrate) {
-        vibrate(duration);
+    navigator.vibrate = navigator.vibrate || navigator.webkit.Vibrate || navigator.mozVibrate || navigator.msVibrate;
+    if (navigator.vibrate) {
+        navigator.vibrate(duration);
     }
 }
 
@@ -52,13 +52,13 @@ function physics() {
         ballx < p1x + paddlelength / 2 && ballx > p1x - paddlelength / 2) {
         ballvy *= -1;
         ballvx += (ballx - p1x) * .025;
-        vibrate(100);
+        vibrate(200);
     }
     if (bally > p2y && bally + ballvy <= p2y && 
         ballx < p2x + paddlelength / 2 && ballx > p2x - paddlelength / 2) {
         ballvy *= -1;
         ballvx += (ballx - p2x) * .025;
-        vibrate(100);
+        vibrate(200);
     }
     if (!paused) {
         ballx += ballvx;
