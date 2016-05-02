@@ -51,13 +51,13 @@ function physics() {
     if (bally < p1y && bally + ballvy >= p1y && 
         ballx < p1x + paddlelength / 2 && ballx > p1x - paddlelength / 2) {
         ballvy *= -1;
-        ballvx += (ballx - p1x) * .025;
+        ballvx += (ballx - p1x) * .04;
         vibrate(150);
     }
     if (bally > p2y && bally + ballvy <= p2y && 
         ballx < p2x + paddlelength / 2 && ballx > p2x - paddlelength / 2) {
         ballvy *= -1;
-        ballvx += (ballx - p2x) * .025;
+        ballvx += (ballx - p2x) * .04;
         vibrate(150);
     }
     if (!paused) {
@@ -75,8 +75,8 @@ function physics() {
             return "p1";
         }
     }
-    ballvy = ballvy + ballvy * .000001;
-    ballvx = ballvx + ballvx * .000001;
+    ballvy *= 1.0003;
+    ballvx *= 1.0003;
     return "continue";
 }
 
