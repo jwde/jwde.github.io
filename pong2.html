@@ -53,7 +53,7 @@ function physics() {
     if (bally < p1y && bally + ballvy >= p1y && 
         ballx < p1x + paddlelength / 2 && ballx > p1x - paddlelength / 2) {
         ballvy *= -1;
-        ballvx += (ballx - p1x) * ballvy * 5;
+        ballvx -= (ballx - p1x) * ballvy * 5;
         vibrate(150);
     }
     if (bally > p2y && bally + ballvy <= p2y && 
