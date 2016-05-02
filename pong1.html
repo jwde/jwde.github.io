@@ -27,6 +27,8 @@ var bally = .5;
 var ballvx = .001;
 var ballvy = .006;
 var ballvybase = .006;
+//var ballvybase = .012;
+//var ballvybase = .025;
 // ballsize is absolute
 var ballsize = 12;
 var width = 0;
@@ -369,7 +371,7 @@ function playpoint(p1score, p2score, callback) {
     ballx = .5;
     bally = .5;
     ballvx = .001;
-    ballvy = .006;
+    ballvy = ballvybase;
     p1scored = false;
     p2scored = false;
     renderint = setInterval(function() {
