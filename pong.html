@@ -245,33 +245,31 @@ function renderfinal(p1score, p2score) {
     p2x = .5;
     renderpaddles();
 
-    if (p1score >= 3) {
-        context.beginPath();
-        context.font = "60px Verdana";
-        context.textAlign = "center";
-        context.fillStyle = "rgba(255, 0, 0, 1.0)";
-        context.strokeStyle = "rgba(255, 0, 0, 1.0)";
-        context.fillText("Winner", width / 2, height * 3 / 4);
-        context.fill();
-        context.lineWidth = 2.0;
-        context.stroke();
-        context.closePath();
-    } else {
-        context.save();
-        context.translate(width, height);
-        context.rotate(Math.PI);
-        context.beginPath();
-        context.font = "60px Verdana";
-        context.textAlign = "center";
-        context.fillStyle = "rgba(0, 0, 255, 1.0)";
-        context.strokeStyle = "rgba(0, 0, 255, 1.0)";
-        context.fillText("Winner", width / 2, height * 3 / 4);
-        context.fill();
-        context.lineWidth = 2.0;
-        context.stroke();
-        context.restore();
-        context.closePath();
-    }
+    context.beginPath();
+    context.font = "60px Verdana";
+    context.textAlign = "center";
+    context.fillStyle = "rgba(255, 0, 0, 1.0)";
+    context.strokeStyle = "rgba(255, 0, 0, 1.0)";
+    context.fillText(p1score >= 3 ? "Winner" : "Loser", width / 2, height * 4 / 5);
+    context.fill();
+    context.lineWidth = 2.0;
+    context.stroke();
+    context.closePath();
+
+    context.save();
+    context.translate(width, height);
+    context.rotate(Math.PI);
+    context.beginPath();
+    context.font = "60px Verdana";
+    context.textAlign = "center";
+    context.fillStyle = "rgba(0, 0, 255, 1.0)";
+    context.strokeStyle = "rgba(0, 0, 255, 1.0)";
+    context.fillText(p1score >= 3 ? "Loser" : "Winner", width / 2, height * 4 / 5);
+    context.fill();
+    context.lineWidth = 2.0;
+    context.stroke();
+    context.restore();
+    context.closePath();
     return ret;
 }
 
