@@ -52,13 +52,13 @@ function physics() {
         ballx < p1x + paddlelength / 2 && ballx > p1x - paddlelength / 2) {
         ballvy *= -1;
         ballvx += (ballx - p1x) * .025;
-        vibrate(200);
+        vibrate(150);
     }
     if (bally > p2y && bally + ballvy <= p2y && 
         ballx < p2x + paddlelength / 2 && ballx > p2x - paddlelength / 2) {
         ballvy *= -1;
         ballvx += (ballx - p2x) * .025;
-        vibrate(200);
+        vibrate(150);
     }
     if (!paused) {
         ballx += ballvx;
@@ -293,6 +293,8 @@ function renderfinal(p1score, p2score) {
     context.fillStyle = "rgba(255, 0, 0, 1.0)";
     context.strokeStyle = "rgba(255, 0, 0, 1.0)";
     context.fillText(p1score >= 3 ? "Winner" : "Loser", width / 2, height * 4 / 5);
+    context.font = "30px Verdana";
+    context.fillText("Touch paddle to restart", width / 2, height * 2.8 / 5);
     context.fill();
     context.lineWidth = 2.0;
     context.stroke();
@@ -307,6 +309,8 @@ function renderfinal(p1score, p2score) {
     context.fillStyle = "rgba(0, 0, 255, 1.0)";
     context.strokeStyle = "rgba(0, 0, 255, 1.0)";
     context.fillText(p1score >= 3 ? "Loser" : "Winner", width / 2, height * 4 / 5);
+    context.font = "30px Verdana";
+    context.fillText("Touch paddle to restart", width / 2, height * 2.8 / 5);
     context.fill();
     context.lineWidth = 2.0;
     context.stroke();
