@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mobile Pong</title>
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<style type="text/css">
+body {margin: 0px; overflow: hidden;}
+canvas {border: 1px solid black;}
+</style>
+<script src="jquery-1.12.1.min.js"></script>
+<script>
+var canvas;
+var context;
+var touches = [];
+var p1x = .5;
+var p2x = .5;
+var p1ybound = .8;
+var p2ybound = .2;
+var p1y = (p1ybound + .5 * (1 - p1ybound));
+var p2y = .5 * p2ybound;
+var paddlelength = .25;
+var paddlewidth = .02;
+var paddlexmin = paddlelength / 2;
+var paddlexmax = 1 - paddlelength / 2;
+var ballx = .5;
+var bally = .5;
+var ballvx = .001;
+var ballvy = .006;
+//var ballvybase = .006;
+var ballvybase = .012;
+//var ballvybase = .025;
+// ballsize is absolute
+var ballsize = 12;
+var width = 0;
+var height = 0;
+var frame = false;
+var startingtime = new Date().getTime();
+var paused = false;
+var released = false;
+var lasttime = new Date().getTime();
+var p1scored = false;
+var p2scored = false;
+var gameover = true;
+
+function vibrate(duration) {
+    navigator.vibrate = navigator.vibrate || navigator.webkit.Vibrate || navigator.mozVibrate || navigator.msVibrate;
+    if (navigator.vibrate) {
+        navigator.vibrate(duration);
+    }
+}
+
+function physics() {
+    if (bally < p1y && bally + ballvy >= p1y && 
+        ballx < p1x + paddlelength / 2 && ballx > p1x - paddlelength / 2) {
+        ballvy *= -1;
+        ballvx += (ballx - p1x) * .04;
+        vibrate(150);
+    }
+    if (bally > p2y && bally + ballvy <= p2y && 
+        ballx < p2x + paddlelength / 2 && ballx > p2x - paddlelength / 2) {
+        ballvy *= -1;
+        ballvx += (ballx - p2x) * .04;
+        vibrate(150);
+    }
+    if (!paused) {
+        ballx += ballvx;
+        bally += ballvy;
+    }
+    if (ballx > 1 || ballx < 0) {
+        ballvx *= -1;
+    }
+    if (bally > 1 || bally < 0) {
+        if (bally > 1) {
+            return "p2";
+        }
+        else {
+            return "p1";
+        }
+    }
+    ballvy *= 1.0003;
+    ballvx *= 1.0003;
+    return "continue";
+}
+
+function renderpaddles() {
+    // draw p1
+    context.beginPath();
+    context.rect(p1x * width - .5 * width * paddlelength, p1y * height, width * paddlelength, height * paddlewidth);
+    context.fillStyle = "rgba(255, 0, 0, 1.0)";
+    context.fill();
+    context.lineWidth = 2.0;
+    context.strokeStyle = "rgba(255, 0, 0, 1.0)";
+    context.stroke();
+    context.closePath();
+
+    // draw p2
+    context.beginPath();
+    context.rect(p2x * width - .5 * width * paddlelength, p2y * height, width * paddlelength, height * paddlewidth);
+    context.fillStyle = "rgba(0, 0, 255, 1.0)";
+    context.fill();
+    context.lineWidth = 2.0;
+    context.strokeStyle = "rgba(0, 0, 255, 1.0)";
+    context.stroke();
+    context.closePath();
+}
+
+function renderball() {
+    // draw the ball
+    context.beginPath();
+    context.rect(ballx * width - .5 * ballsize, bally * height - .5 * ballsize, ballsize, ballsize);
+    context.fillStyle = "rgba(0, 0, 0, 1.0)";
+    context.fill();
+    context.lineWidth = 2.0;
+    context.strokeStyle = "rgba(0, 0, 0, 1.0)";
+    context.stroke();
+    context.closePath();
+}
+
+function rendertally(num, x1, y1, x2, y2, stroke, fill) {
+    var tallywidth = (x2 - x1) * width / 18;
+    var tallyheight = (y2 - y1) * height;
+    context.beginPath();
+    if (num == 1) {
+        context.rect((x1 + ((x2 - x1) / 2)) * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
+    } else if (num == 2) {
+        context.rect((x1 + ((x2 - x1) / 4)) * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
+        context.rect((x1 + (3 * (x2 - x1) / 4)) * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
+    } else if (num == 3) {
+        context.rect(x1 * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
+        context.rect((x1 + ((x2 - x1) / 2)) * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
+        context.rect(x2 * width - tallywidth / 2, y1 * height, tallywidth, tallyheight);
+    }
+    context.fillStyle = fill;
+    context.fill();
+    context.lineWidth = 2.0;
+    context.strokeStyle = stroke;
+    context.stroke();
+    context.closePath();
+}
+
+function renderscore(p1score, p2score) {
+    var tallycolor = "rgba(180, 180, 180, 1.0)";
+    rendertally(p1score, .35, .55, .65, .70, tallycolor, tallycolor)
+    rendertally(p2score, .35, .30, .65, .45, tallycolor, tallycolor)
+}
+
+function processtouches() {
+/*    if (touches.length == 0) {
+        released = true;
+    }
+    var p1ready = false;
+    var p2ready = false;*/
+    var touched = [0, 0];
+    for (var i = 0; i < touches.length; ++i) {
+        var touch = touches[i];
+        var tx = touch.pageX;
+        var ty = touch.pageY;
+        if (ty / height > p1ybound) {
+            p1x = tx / width;
+/*            if (paused && released) {
+                p1ready = true;
+            }*/
+            touched[0] = 1;
+        }
+        if (ty / height < p2ybound) {
+            p2x = tx / width;
+/*            if (paused && released) {
+                p2ready = true;
+            }*/
+            touched[1] = 1;
+        }
+    }
+/*    if (p1ready && p2ready) {
+        paused = false;
+    }*/
+    return touched;
+}
+
+function updatedimensions() {
+    if (width != window.innerWidth || height != window.innerHeight) {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.style.width = width+"px";
+        canvas.style.height = height+"px";
+        canvas.width = width;
+        canvas.height = height;
+    }
+}
+
+function renderpoint(p1score, p2score) {
+    var scored = physics();
+    if (scored != "continue") {
+        return scored;
+    }
+    if (frame) return;
+    frame = true;
+
+    updatedimensions();
+
+    context.clearRect(0, 0, width, height);
+
+    processtouches();
+
+    renderscore(p1score, p2score);
+
+    renderpaddles();
+
+    renderball();
+
+    frame = false;
+    return "continue";
+}
+
+
+function renderstart() {
+    updatedimensions();
+    context.clearRect(0, 0, width, height);
+    touched = processtouches();
+    if (touched[0] == 1 && touched[1] == 1) {
+        return "startgame";
+    }
+    renderpaddles();
+
+    context.beginPath();
+    context.font = "60px Verdana";
+    context.textAlign = "center";
+    context.fillStyle = "rgba(255, 0, 0, 1.0)";
+    context.strokeStyle = "rgba(255, 0, 0, 1.0)";
+    context.fillText("PONG", width / 2, height * 3 / 5);
+    context.font = "30px Verdana";
+    context.fillText("Touch paddle to start", width / 2, height * 4 / 5);
+    context.fill();
+    context.lineWidth = 2.0;
+    context.stroke();
+    context.closePath();
+
+    context.save();
+    context.translate(width, height);
+    context.rotate(Math.PI);
+    context.beginPath();
+    context.font = "60px Verdana";
+    context.textAlign = "center";
+    context.fillStyle = "rgba(0, 0, 255, 1.0)";
+    context.strokeStyle = "rgba(0, 0, 255, 1.0)";
+    context.fillText("PONG", width / 2, height * 3 / 5);
+    context.font = "30px Verdana";
+    context.fillText("Touch paddle to start", width / 2, height * 4 / 5);
+    context.fill();
+    context.lineWidth = 2.0;
+    context.stroke();
+    context.restore();
+    context.closePath();
+
+
+    return "continue";
+}
+
+function renderpause(p1score, p2score) {
+    var ret = "continue";
+    updatedimensions();
+    context.clearRect(0, 0, width, height);
+    touched = processtouches();
+    if (touched[0] == 0 && touched[1] == 0) {
+        ret = "released";
+    }
+    if (touched[0] == 1 && touched[1] == 1) {
+        ret = "startgame";
+    }
+    renderscore(p1score, p2score);
+    p1x = .5;
+    p2x = .5;
+    renderpaddles();
+
+    context.beginPath();
+    context.font = "30px Verdana";
+    context.textAlign = "center";
+    context.fillStyle = "rgba(255, 0, 0, 1.0)";
+    context.strokeStyle = "rgba(255, 0, 0, 1.0)";
+    context.fillText("Touch paddle to continue", width / 2, height * .85);
+    context.fill();
+    context.lineWidth = 2.0;
+    context.stroke();
+    context.closePath();
+
+    context.save();
+    context.translate(width, height);
+    context.rotate(Math.PI);
+    context.beginPath();
+    context.textAlign = "center";
+    context.fillStyle = "rgba(0, 0, 255, 1.0)";
+    context.strokeStyle = "rgba(0, 0, 255, 1.0)";
+    context.font = "30px Verdana";
+    context.fillText("Touch paddle to continue", width / 2, height * .85);
+    context.fill();
+    context.lineWidth = 2.0;
+    context.stroke();
+    context.restore();
+    context.closePath();
+
+
+    return ret;
+}
+
+function renderfinal(p1score, p2score) {
+    var ret = "continue";
+    updatedimensions();
+    context.clearRect(0, 0, width, height);
+    touched = processtouches();
+    if (touched[0] == 0 && touched[1] == 0) {
+        ret = "released";
+    }
+    if (touched[0] == 1 && touched[1] == 1) {
+        ret = "startgame";
+    }
+    renderscore(p1score, p2score);
+    p1x = .5;
+    p2x = .5;
+    renderpaddles();
+
+    context.beginPath();
+    context.font = "60px Verdana";
+    context.textAlign = "center";
+    context.fillStyle = "rgba(255, 0, 0, 1.0)";
+    context.strokeStyle = "rgba(255, 0, 0, 1.0)";
+    context.fillText(p1score >= 3 ? "Winner" : "Loser", width / 2, height * 4 / 5);
+    context.font = "30px Verdana";
+    context.fillText("Touch paddle to restart", width / 2, height * .54);
+    context.fill();
+    context.lineWidth = 2.0;
+    context.stroke();
+    context.closePath();
+
+    context.save();
+    context.translate(width, height);
+    context.rotate(Math.PI);
+    context.beginPath();
+    context.font = "60px Verdana";
+    context.textAlign = "center";
+    context.fillStyle = "rgba(0, 0, 255, 1.0)";
+    context.strokeStyle = "rgba(0, 0, 255, 1.0)";
+    context.fillText(p1score >= 3 ? "Loser" : "Winner", width / 2, height * 4 / 5);
+    context.font = "30px Verdana";
+    context.fillText("Touch paddle to restart", width / 2, height * .54);
+    context.fill();
+    context.lineWidth = 2.0;
+    context.stroke();
+    context.restore();
+    context.closePath();
+    return ret;
+}
+
+var startdone = false;
+function startscreen(callback) {
+    startdone = false;
+    renderint = setInterval(function() {
+        if (startdone) {
+            return;
+        }
+        var result = renderstart();
+        if (result == "startgame") {
+            startdone = true;
+            clearInterval(startscreen);
+            callback();
+        }
+    }, 16);
+}
+
+function playpoint(p1score, p2score, callback) {
+    p1x = .5;
+    p2x = .5;
+    ballx = .5;
+    bally = .5;
+    ballvx = .001;
+    ballvy = .006;
+    p1scored = false;
+    p2scored = false;
+    renderint = setInterval(function() {
+        var result = renderpoint(p1score, p2score);
+        if (result != "continue") {
+            clearInterval(renderint);
+            callback(result);
+        }
+    }, 16);
+}
+
+function pausescreen(p1score, p2score, callback) {
+    renderint = setInterval(function() {
+        var result = renderpause(p1score, p2score);
+        if (result == "released") {
+            clearInterval(renderint);
+            renderint2 = setInterval(function() {
+                var result2 = renderpause(p1score, p2score);
+                if (result2 == "startgame") {
+                    clearInterval(renderint2);
+                    callback();
+                }
+            }, 16);
+        }
+    }, 16);
+}
+
+function finalresult(p1score, p2score) {
+    renderint = setInterval(function() {
+        var result = renderfinal(p1score, p2score);
+        if (result == "released") {
+            clearInterval(renderint);
+            renderint2 = setInterval(function() {
+                var result2 = renderfinal(p1score, p2score);
+                if (result2 == "startgame") {
+                    clearInterval(renderint2);
+                    playgame();
+                }
+            }, 16);
+        }
+    }, 16);
+
+}
+
+function playgame() {
+    function nextpoint(p1score, p2score, callback) {
+        if (p1score >= 3 || p2score >= 3) {
+            callback(p1score, p2score);
+            return;
+        }
+        playpoint(p1score, p2score, function(result) {
+            var p1s = p1score;
+            var p2s = p2score;
+            if (result == "p1") {
+                p1s += 1;
+            } else {
+                p2s += 1;
+            }
+            if (p1s < 3 && p2s < 3) {
+                pausescreen(p1s, p2s, function() {
+                    nextpoint(p1s, p2s, callback)
+                });
+            } else {
+                callback(p1s, p2s);
+                return;
+            }
+        });
+    }
+    nextpoint(0, 0, finalresult);
+}
+
+function firststart() {
+    startscreen(playgame);
+}
+
+$(document).ready(function() {
+        canvas = document.getElementById('canvas');
+        context = canvas.getContext('2d'); 
+
+        /* handle user input */
+        canvas.addEventListener('touchmove', function(event) {
+            event.preventDefault();
+            touches = event.touches;
+        });
+        canvas.addEventListener('touchend', function(event) {
+            touches = event.touches;
+        });
+        canvas.addEventListener('touchstart', function(event) {
+            touches = event.touches;
+        });
+
+/*        setInterval(function() {
+            if (gameover) {
+                gameover = false;
+                playgame();
+            }
+        }, 50)*/
+        firststart();
+        });
+</script>
+</head>
+<body>
+<canvas id="canvas" width="300" height="300" style="top:0px; left:0px; width: 300px; height: 300px;"></canvas>
+</body>
+</html>
