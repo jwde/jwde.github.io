@@ -274,7 +274,7 @@ function renderpause(p1score, p2score) {
     context.textAlign = "center";
     context.fillStyle = "rgba(255, 0, 0, 1.0)";
     context.strokeStyle = "rgba(255, 0, 0, 1.0)";
-    context.fillText("Tap paddle to continue", width / 2, height / 2);
+    context.fillText("Tap paddle to continue", width / 2, height * .7);
     context.fill();
     context.lineWidth = 2.0;
     context.stroke();
@@ -288,7 +288,7 @@ function renderpause(p1score, p2score) {
     context.fillStyle = "rgba(0, 0, 255, 1.0)";
     context.strokeStyle = "rgba(0, 0, 255, 1.0)";
     context.font = "30px Verdana";
-    context.fillText("Tap paddle to continue", width / 2, height / 2);
+    context.fillText("Tap paddle to continue", width / 2, height * .7);
     context.fill();
     context.lineWidth = 2.0;
     context.stroke();
