@@ -28,7 +28,7 @@ var ballvx = .001;
 var ballvy = .006;
 var ballvybase = .006;
 // ballsize is absolute
-var ballsize = 15;
+var ballsize = 12;
 var width = 0;
 var height = 0;
 var frame = false;
@@ -75,20 +75,20 @@ function renderpaddles() {
     // draw p1
     context.beginPath();
     context.rect(p1x * width - .5 * width * paddlelength, p1y * height, width * paddlelength, height * paddlewidth);
-    context.fillStyle = "rgba(255, 0, 0, 0.5)";
+    context.fillStyle = "rgba(255, 0, 0, 1.0)";
     context.fill();
     context.lineWidth = 2.0;
-    context.strokeStyle = "rgba(255, 0, 0, 1)";
+    context.strokeStyle = "rgba(255, 0, 0, 1.0)";
     context.stroke();
     context.closePath();
 
     // draw p2
     context.beginPath();
     context.rect(p2x * width - .5 * width * paddlelength, p2y * height, width * paddlelength, height * paddlewidth);
-    context.fillStyle = "rgba(0, 0, 255, 0.5)";
+    context.fillStyle = "rgba(0, 0, 255, 1.0)";
     context.fill();
     context.lineWidth = 2.0;
-    context.strokeStyle = "rgba(0, 0, 255, 1)";
+    context.strokeStyle = "rgba(0, 0, 255, 1.0)";
     context.stroke();
     context.closePath();
 }
