@@ -1,10 +1,9 @@
 $(window).load(function() {
     var terminalText = "";
     var aboutText = "Hi, I'm Jay.<br>" +
-                    "I'm a junior at Tufts University studying computer science and mathematics.<br>" +
-                    "I'm excited to learn more about information security, data science, and machine learning.<br>" +
-                    "I love to play guitar and listen to music.<br>" +
-                    "I enjoy gaming and going rock climbing with friends."
+                    "I'm a masters student at Tufts University studying computer science.<br>" +
+                    "I'm excited to learn more about machine learning and information security.<br>" +
+                    "I love to play guitar, climb rocks, and play video games.";
     var portfolioText = "<a href='https://www.cs.tufts.edu/comp/116/archive/fall2015/jdestories.pdf'>Probabilistic Password Modeling: Predicting Passwords with Machine Learning</a> - paper exploring applications of natural language processing in guessing passwords.<br>" +
                         "<a href='http://piper.link'>piper</a> - image sharing and realtime discussion site. <a href='https://github.com/jwde/Piper'>- github</a><br>" +
                         "<a href='http://fairfieldauction.com'>fairfieldauction</a> - antiques and fine art auction site<br>" +
