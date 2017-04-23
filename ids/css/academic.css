@@ -1,0 +1,113 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.2em;
+    width: 765px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(0, 0, 0, .8);
+}
+
+a {
+    color: inherit;
+}
+
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; }
+.Comment { color: #af5f00; }
+.Constant { color: #dd6060; }
+.Identifier { color: #559900; }
+.Error { color: #ffffff; background-color: #ff6060; padding-bottom: 1px; }
+.Type { color: #5fd7ff; font-weight: bold; }
+.Special { color: #c0c0c0; font-weight: bold; }
+.Statement { color: #00ff00; font-weight: bold; }
+
+table {
+    width: 100%;
+}
+
+table th {
+    text-align: left;
+}
+
+.header {
+    margin-top: 100px;
+    margin-bottom: 120px;
+    text-align: center;
+}
+
+.header > h1 {
+    font-size: 2.2em;
+}
+
+.authors {
+    margin-top: 50px;
+}
+
+.authors p {
+    margin-top: 7px;
+    margin-bottom: 5px;
+}
+
+.authors p:nth-child(1) {
+    font-size: 1.33333em;
+}
+
+.authors p:nth-child(n+2):nth-child(-n+3) {
+    font-size: .9em;
+}
+
+.authors p:nth-child(4) {
+    font-size: 1.33333em;
+}
+
+.section:not(.counter-skip) {
+    counter-increment: section;
+    counter-reset: subsection;
+}
+
+.section:not(.counter-skip) > h2::before {
+    content: counter(section) ". ";
+}
+
+.section:not(.counter-skip) > h3::before {
+    counter-increment: subsection;
+    content: counter(section) "." counter(subsection) " ";
+}
+
+.section > h2 {
+    font-size: 1.8em;
+}
+
+.section > h3 {
+    font-size: 1.6em;
+}
+
+.references > p {
+    counter-increment: reference;
+}
+
+.references > p::before {
+    content: "[" counter(reference) "]\00a0\00a0\00a0\00a0"
+}
+
+.cite:after {
+    content: "[" attr(data-cite) "]"
+}
+
+.popup {
+  z-index: 1;
+  background-color: #fff;
+  position: absolute;
+  display: inline-block;
+  width: 300px;
+  font-size: .7em;
+  padding: 0.5em 1em;
+  margin-top: 1.6em;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+  word-wrap: break-word;
+}
+
+@media only screen and (max-width: 900px) {
+    body {
+        width: 85%;
+    }
+}

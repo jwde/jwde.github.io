@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>A Brief History and Comparison of XML and JSON</title>
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro"/>
+        <link rel="stylesheet" href="./css/academic.css"/>
+    </head>
+    <body>
+        <div class="header">
+            <h1>A Brief History and Comparison of XML and JSON</h1>
+            <div class="authors">
+                <div class="author">
+                    <p>Jay DeStories</p>
+                    <p>Tufts University</p>
+                    <p>UTLN: jdesto01</p>
+                    <p><a href="mailto:jay.destories@tufts.edu">jay.destories@tufts.edu</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section counter-skip">
+            <h2>Abstract</h2>
+            <p>Since the mid 1990s, XML has been promoted by the W3C as a web-friendly format for data and documents. In recent years, JavaScript Object Notation (JSON) has grown as an alternative data format to XML. In this paper, we will discuss the history of these two formats, comparing their intended use cases, how they’ve developed over time, and how each is relevant to the future, both on and off the web.</p>
+        </div>
+
+        <div class="section">
+            <h2>Introduction</h2>
+            <p>In the mid 1990s, the web was rapidly developing beyond its origins as a static content publishing platform. 1995 saw the introduction of JavaScript <span class="cite" data-cite="1"></span>, and in 1996, the SGML Editorial Review Board, now known as the XML Working Group, was formed under the W3C with the purpose, “to enable generic SGML to be served, received, and processed on the Web in a way that is now possible with HTML” <span class="cite" data-cite="2"></span>. XML has played a key role in the development of the web as one of the primary formats for representing both data and document structure and content. With JavaScript and XML, it became possible to fetch new content for a web page without performing a full page refresh (AJAX). This opened up a whole new world of dynamic web content and web applications. Since then, thanks to these tools, the web has transformed from primarily static content to a platform for rich dynamic content and applications, even rivaling traditional desktop software in domains like word processing and spreadsheets.</p>
+
+            <p>In the early 2000s, Douglas Crockford specified JSON <span class="cite" data-cite="3"></span>, a subset of JavaScript (ECMA-262 3rd Edition) <span class="cite" data-cite="4"></span>. JSON is a “lightweight data-interchange format… easy for humans to read and write” <span class="cite" data-cite="4"></span>. To give a sense of its simplicity, RFC 4627, which specifies JSON, fits on 9 pages, compared to 70 pages for XML’s RFC 4825 <span class="cite" data-cite="5"></span> <span class="cite" data-cite="6"></span>. Crockford claims to have “discovered” JSON, rather than inventing it, because it already existed in JavaScript, and developers were already using it for data interchange <span class="cite" data-cite="3"></span>. JSON has since rapidly overtaken XML in popularity for web APIs, due mainly to its simplicity <span class="cite" data-cite="7"></span>.</p>
+        </div>
+
+        <div class="section">
+            <h2>Background</h2>
+            <h3>XML</h3>
+            <p>XML is based on, and is a subset of, Standard Generalized Markup Language (SGML) <span class="cite" data-cite="8"></span>, which standardizes the specification of document languages <span class="cite" data-cite="9"></span>. The idea behind SGML is that it should be possible to describe document semantics without specifying how to display them <span class="cite" data-cite="9"></span>. This is the same as the idea behind HTML, which is also based on SGML, although the current HTML standard, HTML5, is no longer a subset of SGML <span class="cite" data-cite="10"></span>.</p>
+
+            <p>An SGML document consists of:</p>
+            <ul>
+                <li>An SGML declaration - Parameters for the parser with information such as character set, feature flags, custom delimiters, etc <span class="cite" data-cite="11"></span> <span class="cite" data-cite="12"></span>.</li>
+                <li>A document type definition (DTD) - Defines the permissible entities, tags, and semantics <span class="cite" data-cite="12"></span>.</li>
+                <li>A document instance - A markup document which is valid in the language specified by the DTD <span class="cite" data-cite="12"></span>.</li>
+            </ul>
+
+            <p>For example, HTML4 is a DTD which defines entities such as script, stylesheet, and block, and elements like body, div, span, etc, along with their nesting rules <span class="cite" data-cite="13"></span>.</p>
+
+            <p>Although web browsers implement HTML, they generally don’t support parsing arbitrary SGML due to its complexity <span class="cite" data-cite="12"></span>. XML was developed by the W3C working group with the goal of creating a subset of SGML, such that “It shall be easy to write programs which process XML documents” <span class="cite" data-cite="2"></span>. XML gives developers much of the flexibility of SGML, but it is simpler to implement, resulting in wider support.</p>
+
+            <p>Like SGML, XML documents include both the structure of the document and the document markup. In the official XML recommendation by the W3C, a DTDs are used to define document structure <span class="cite" data-cite="2"></span>. There are, however, other options for the schema, such as the XML Schema Definition Language (XSD), which significantly extends the expressiveness of XML schemas beyond what is possible with DTDs <span class="cite" data-cite="14"></span>. XML documents can also optionally omit a schema. As with SGML, an XML document instance is simply the document content, which must conform to the schema, if given.</p>
+            <h3>JSON</h3>
+            <p>Whereas XML specifies document schema and markup, JSON describes data. JSON is based on two very common data structures in nearly all programming languages: an unordered list of key/value pairs (object), and an ordered list <span class="cite" data-cite="4"></span>.</p>
+
+            <p>The syntax of JSON is based on, and a subset of, JavaScript. As opposed to JavaScript literals, JSON requires that object keys be strings, that strings use double quotes, and that numbers be decimal with an optional exponent part. A JSON value can be an object, an array, a string, a number, or one of the values: false, null, or true. Any single JSON value is valid JSON <span class="cite" data-cite="15"></span>.</p>
+        </div>
+
+        <div class="section">
+            <h2>Use Cases</h2>
+            <p>We will consider two main classes of usage for these two formats: document-centric and data-centric.</p>
+            <h3>Document-centric</h3>
+            <p>The idea of document-centric content has been around long before computers. There was a point in time when things like bookkeeping ledgers, marketing materials, business plans, etc were all managed in terms of physical paper documents (this is still true in some contexts). Digital documents can roughly be thought of as directly translating the content which was once stored on physical documents into a digital format. This is a fairly subjective viewpoint, however. In the context of XML, Sean McGrath suggests thinking about document-centric content as that in which element types exhibit power law distributions <span class="cite" data-cite="16"></span>. That is to say, documents tend of have some common element types (e.g. paragraphs, descriptions, headers, etc.) which consist of less common types (e.g. units of measurement, references, etc.), in a hierarchical fashion, where at each more specific level, the number of instances of the elements is lower by a multiplicative factor, resulting in a power law distribution of element type counts.</p>
+            <h3>Data-centric</h3>
+            <p>We can also reason about content in a data-centric way, in which the content doesn’t directly map to a presentation of that content. Whereas a document, for example, may correspond directly to the visible content on a website, a data-centric representation may be closer to what is stored in the database used by that site. For a numerical comparison, Sean McGrath suggests that data-centric XML usage tends to involve uniform element type distributions <span class="cite" data-cite="16"></span>. Whereas document entities tend to have arbitrary children, data-centric representations tend to have more precise hierarchy. For example, an HTML div has many possible sets of children, but a database row describing a person will have exactly one first name, one phone number, etc.</p>
+            <h3>XML</h3>
+            <p>XML is very well-suited for document-centric information, since it handles mixed-content, attributes/metadata, and is organized in a tree structure, which lends itself well to presentation layout. For example, you may want to store some text and annotate it with emphasis tags, number tags, etc. to give presentational semantics. Then you could render the content with rules such as: render numbers in bold face, render names in a particular font, etc. A prime example of XML being used for document serialization is the Office Open XML file format, which uses a compressed XML format used to store files for Microsoft Office products like Word, PowerPoint, and Excel <span class="cite" data-cite="17"></span>.</p>
+
+            <p>The ability to declare schemas for XML documents also allows for things like validation in the parser <span class="cite" data-cite="2"></span> and consistency in distributed applications. Much in the same way that the HTML schema allows browsers to understand HTML documents from arbitrary web servers without prior communication, XML makes it possible to send documents with arbitrary schemas, and if the receiver understands the schema they can interpret the document without prior communication. This demonstrates one strong argument for XML in a data-centric context.</p>
+
+            <p>XML is less elegant in data-centric applications where clients and servers already have agreed-upon implementations. Consider a web-developer writing frontend code to fetch some data from a backend under their control. XML is a viable option, but it is overly verbose for such a simple use case and lacks some of the convenience of JSON when it comes to representing common data structures.</p>
+            <h3>JSON</h3>
+            <p>JSON’s support for both objects and lists makes it a more natural choice for representing data-centric content. It’s very intuitive to serialize or deserialize JSON from a data structure. In many languages, including JavaScript, Python, and Ruby, it’s possible to serialize any primitive data structure with no extra logic, and implementing class JSON serializers is trivial. As the folks at MongoLab point out, “while XML parsers handle the low-level syntactic parsing of XML tags, attributes, etc…, you still need to walk the DOM tree” <span class="cite" data-cite="18"></span>. This seems, to a large extent, to be the reason why developers have moved from XML to JSON for  many data-centric applications, particularly on the web.</p>
+
+            <p>Although JSON doesn’t provide a way of declaring schemas or namespaces, that doesn’t mean that you can’t build layers on top of JSON to provide schema description or validation. For web applications, this is often done in the form of human-readable API documentation, but more rigorous approaches exist. One example of self-describing JSON for web APIs is Facebook’s GraphQL language. GraphQL is a graph query language designed as an alternative to REST for web APIs. It’s particularly well-suited for applications with cyclical data relationships. GraphQL applications are accessible via GET and POST requests to some URI, with a common syntax for retrieving the schema <span class="cite" data-cite="19"></span>. This not only makes self-description possible, but gives it to you for free once you’ve implemented the graph. Since GraphQL schemas are application-specific, this doesn’t provide exactly what you get with XML schemas in terms of support for distributed applications, but it does demonstrate the possibilities of layering new technologies on top of JSON. In this respect, JSON provides greater separation of concerns than XML at the cost of standardization.</p>
+        </div>
+
+        <div class="section">
+            <h2>Support</h2>
+            <h3>Databases</h3>
+            <p>Databases fall into one of two categories: Structured Query Language (SQL) databases and non Structured Query Language (NoSQL) databases. SQL database engines manage data in tables with columns of specific types defined by a schema, where the unit of information is a row. Data is related by explicitly storing unique ids for each row in a table and referencing ids by value <span class="cite" data-cite="20"></span>. Some SQL database engines support XML or JSON column types. In some cases this includes features like validation and querying within the XML/JSON. NoSQL databases can be structured in many different ways, but many store data in units of documents. In those cases, a document is often represented using XML or JSON <span class="cite" data-cite="21"></span>.</p>
+
+            <p>The top ten most popular database engines, according to DB-Engines, are as follows:</p>
+
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>XML Support</th>
+                    <th>JSON Support</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Oracle</td>
+                    <td>SQL</td>
+                    <td>Yes <span class="cite" data-cite="22"></span></td>
+                    <td>Yes <span class="cite" data-cite="23"></span></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>MySQL</td>
+                    <td>SQL</td>
+                    <td>Yes <span class="cite" data-cite="24"></span></td>
+                    <td>Yes <span class="cite" data-cite="25"></span></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Microsoft SQL Server</td>
+                    <td>SQL</td>
+                    <td>Yes <span class="cite" data-cite="26"></span></td>
+                    <td>Yes <span class="cite" data-cite="27"></span></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>PostgreSQL</td>
+                    <td>SQL</td>
+                    <td>Yes <span class="cite" data-cite="28"></span></td>
+                    <td>Yes <span class="cite" data-cite="29"></span></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>MongoDB</td>
+                    <td>NoSQL (documents)</td>
+                    <td>No <span class="cite" data-cite="30"></span></td>
+                    <td>Yes <span class="cite" data-cite="31"></span></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>DB2</td>
+                    <td>SQL</td>
+                    <td>Yes <span class="cite" data-cite="32"></span></td>
+                    <td>Yes <span class="cite" data-cite="33"></span></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Microsoft Access</td>
+                    <td>SQL</td>
+                    <td>No <span class="cite" data-cite="34"></span></td>
+                    <td>No <span class="cite" data-cite="34"></span></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Cassandra</td>
+                    <td>NoSQL (wide columns)</td>
+                    <td>No <span class="cite" data-cite="35"></span></td>
+                    <td>Yes <span class="cite" data-cite="36"></span></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Redis</td>
+                    <td>NoSQL (key-value)</td>
+                    <td>No <span class="cite" data-cite="37"></span></td>
+                    <td>Yes <span class="cite" data-cite="38"></span></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>SQLite</td>
+                    <td>SQL</td>
+                    <td>No <span class="cite" data-cite="39"></span></td>
+                    <td>Yes <span class="cite" data-cite="40"></span></td>
+                </tr>
+            </table>
+            <p><span class="cite" data-cite="41"></span></p>
+            <p>Among the most popular database engines, there is wider support for JSON than XML. This is unsurprising given that JSON is so easy to parse. It’s reasonable to expect that it would be much easier to add JSON support to a database than XML support.</p>
+            <h3>Source Control</h3>
+            <p>A nearly universal pain-point of software development is source control, and in cases where documents or data need to be handled by multiple developers, XML and JSON content may be added to source control.</p>
+
+            <p>One annoyance, pointed out by Stack Overflow user Simon Green, in merging changes made to an XML document is that multiple new closing tags for the same tag type are treated as the same entity by source control, leading merges to generate invalid XML by merging two valid changes <span class="cite" data-cite="42"></span>. This may seem like a minor issue, but if developers aren’t careful about double-checking merges they may introduce bugs as a result of the file format.</p>
+
+            <p>Let’s see an example of how git’s merge-recursive strategy works on both XML and JSON in this scenario:</p>
+
+            <h4>Initial State</h4>
+            <table>
+                <tr>
+                    <th>XML</th>
+                    <th>JSON</th>
+                </tr>
+                <tr>
+                    <td>
+                        <pre>
+<span class="Comment">&lt;?</span><span class="Type">xml</span><span class="Type"> </span><span class="Type">version</span>=<span class="Constant">&quot;1.0&quot;</span><span class="Type"> </span><span class="Type">encoding</span>=<span class="Constant">&quot;UTF-8&quot;</span><span class="Comment">?&gt;</span>
+<span class="Identifier">&lt;</span><span class="Identifier">foo</span><span class="Identifier">&gt;</span>
+<span class="Identifier">&lt;/foo&gt;</span>
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>
+<span class="Special">{</span>
+    &quot;<span class="Statement">foo</span>&quot;: <span class="Special">[</span>
+    <span class="Special">]</span>
+<span class="Special">}</span>
+                        </pre>
+                    </td>
+                </tr>
+            </table>
+
+            <h4>Modification 1</h4>
+            <table>
+                <tr>
+                    <th>XML</th>
+                    <th>JSON</th>
+                </tr>
+                <tr>
+                    <td>
+                        <pre>
+<span class="Comment">&lt;?</span><span class="Type">xml</span><span class="Type"> </span><span class="Type">version</span>=<span class="Constant">&quot;1.0&quot;</span><span class="Type"> </span><span class="Type">encoding</span>=<span class="Constant">&quot;UTF-8&quot;</span><span class="Comment">?&gt;</span>
+<span class="Identifier">&lt;</span><span class="Identifier">foo</span><span class="Identifier">&gt;</span>
+    <span class="Identifier">&lt;</span><span class="Identifier">bars</span><span class="Identifier"> </span><span class="Type">id</span>=<span class="Constant">&quot;1&quot;</span><span class="Identifier">&gt;</span>
+        <span class="Identifier">&lt;</span><span class="Identifier">bar</span><span class="Identifier">&gt;</span>123<span class="Identifier">&lt;/bar&gt;</span>
+    <span class="Identifier">&lt;/bars&gt;</span>
+<span class="Identifier">&lt;/foo&gt;</span>
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>
+<span class="Special">{</span>
+    &quot;<span class="Statement">foo</span>&quot;: <span class="Special">[</span>
+        <span class="Special">{</span>
+            &quot;<span class="Statement">id</span>&quot;: <span class="Constant">1</span>,
+            &quot;<span class="Statement">bars</span>&quot;: <span class="Special">[</span><span class="Constant">123</span><span class="Special">]</span>
+        <span class="Special">}</span>
+    <span class="Special">]</span>
+<span class="Special">}</span>
+                        </pre>
+                    </td>
+                </tr>
+            </table>
+
+            <h4>Modification 2</h4>
+            <table>
+                <tr>
+                    <th>XML</th>
+                    <th>JSON</th>
+                </tr>
+                <tr>
+                    <td>
+                        <pre>
+<span class="Comment">&lt;?</span><span class="Type">xml</span><span class="Type"> </span><span class="Type">version</span>=<span class="Constant">&quot;1.0&quot;</span><span class="Type"> </span><span class="Type">encoding</span>=<span class="Constant">&quot;UTF-8&quot;</span><span class="Comment">?&gt;</span>
+<span class="Identifier">&lt;</span><span class="Identifier">foo</span><span class="Identifier">&gt;</span>
+    <span class="Identifier">&lt;</span><span class="Identifier">bars</span><span class="Identifier"> </span><span class="Type">id</span>=<span class="Constant">&quot;2&quot;</span><span class="Identifier">&gt;</span>
+        <span class="Identifier">&lt;</span><span class="Identifier">bar</span><span class="Identifier">&gt;</span>456<span class="Identifier">&lt;/bar&gt;</span>
+    <span class="Identifier">&lt;/bars&gt;</span>
+<span class="Identifier">&lt;/foo&gt;</span>
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>
+<span class="Special">{</span>
+    &quot;<span class="Statement">foo</span>&quot;: <span class="Special">[</span>
+        <span class="Special">{</span>
+            &quot;<span class="Statement">id</span>&quot;: <span class="Constant">2</span>,
+            &quot;<span class="Statement">bars</span>&quot;: <span class="Special">[</span><span class="Constant">456</span><span class="Special">]</span>
+        <span class="Special">}</span>
+    <span class="Special">]</span>
+<span class="Special">}</span>
+                        </pre>
+                    </td>
+                </tr>
+            </table>
+
+            <h4>Merge Outcome</h4>
+            <table>
+                <tr>
+                    <th>XML</th>
+                    <th>JSON</th>
+                </tr>
+                <tr>
+                    <td>
+                        <pre>
+<span class="Comment">&lt;?</span><span class="Type">xml</span><span class="Type"> </span><span class="Type">version</span>=<span class="Constant">&quot;1.0&quot;</span><span class="Type"> </span><span class="Type">encoding</span>=<span class="Constant">&quot;UTF-8&quot;</span><span class="Comment">?&gt;</span>
+<span class="Identifier">&lt;</span><span class="Identifier">foo</span><span class="Identifier">&gt;</span>
+<span class="Error">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> HEAD
+    <span class="Identifier">&lt;</span><span class="Identifier">bars</span><span class="Identifier"> </span><span class="Type">id</span>=<span class="Constant">&quot;2&quot;</span><span class="Identifier">&gt;</span>
+        <span class="Identifier">&lt;</span><span class="Identifier">bar</span><span class="Identifier">&gt;</span>456<span class="Identifier">&lt;/bar&gt;</span>
+=======
+    <span class="Identifier">&lt;</span><span class="Identifier">bars</span><span class="Identifier"> </span><span class="Type">id</span>=<span class="Constant">&quot;1&quot;</span><span class="Identifier">&gt;</span>
+        <span class="Identifier">&lt;</span><span class="Identifier">bar</span><span class="Identifier">&gt;</span>123<span class="Identifier">&lt;/bar&gt;</span>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; foo
+    <span class="Identifier">&lt;/bars&gt;</span>
+<span class="Identifier">&lt;/foo&gt;</span>
+                        </pre>
+                    </td>
+                    <td>
+                        <pre>
+<span class="Special">{</span>
+    &quot;<span class="Statement">foo</span>&quot;: <span class="Special">[</span>
+        <span class="Special">{</span>
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; <span class="Error">HEAD</span>
+            &quot;<span class="Statement">id</span>&quot;: <span class="Constant">2</span>,
+            &quot;<span class="Statement">bars</span>&quot;: <span class="Special">[</span><span class="Constant">456</span><span class="Special">]</span>
+=======
+            &quot;<span class="Statement">id</span>&quot;: <span class="Constant">1</span>,
+            &quot;<span class="Statement">bars</span>&quot;: <span class="Special">[</span><span class="Constant">123</span><span class="Special">]</span>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; <span class="Error">foo</span>
+        <span class="Special">}</span>
+    <span class="Special">]</span>
+<span class="Special">}</span>
+                        </pre>
+                    </td>
+                </tr>
+            </table>
+
+            <p>As we would expect, merge conflicts occur for both the XML file and the JSON file. The main distinction between the two is that for XML, git incorrectly merges the closing tags, but not the opening tags, whereas for JSON, git merges both the opening and closing tags incorrectly. Since both require editing, it’s fairly subjective which scenario is preferable. It is worth noting that git’s behavior depends on how we format the whitespace in these files and any negative behavior is due to both file format and coding standards. Since neither XML nor JSON with common style conventions are ideal for this scenario, it would be interesting to explore alternative formats and styles which are better handled by source control merges.</p>
+        </div>
+
+        <div class="section">
+            <h2>Conclusion</h2>
+            <p>Ultimately, XML is designed to represent documents and JSON is designed to represent data. Despite the growing popularity of JSON, it would be surprising and concerning if it fully replaced XML, particularly for distributed applications. That being said, for most web development JSON is emerging as a better option for data interchange, and we should expect it to remain a dominant human-readable data format for the foreseeable future.</p>
+        </div>
+
+        <div class="section">
+            <h2>References</h2>
+            <div class="references">
+                <p data-ref="1">“A Short History of JavaScript - Web Education Community Group,” A Short History of JavaScript - Web Education Community Group. [Online]. Available: https://www.w3.org/community/webed/wiki/A_Short_History_of_JavaScript. [Accessed: 13-Apr-2017].</p>
+                <p data-ref="2">“Extensible Markup Language (XML) 1.0 (Fifth Edition),” Extensible Markup Language (XML) 1.0 (Fifth Edition). [Online]. Available: https://www.w3.org/TR/REC-xml/. [Accessed: 08-Apr-2017].</p>
+                <p data-ref="3">“Douglas Crockford: The JSON Saga - YouTube,” Douglas Crockford: The JSON Saga - YouTube. [Online]. Available: https://www.youtube.com/watch?v=-C-JoyNuQJs. [Accessed: 13-Apr-2017].</p>
+                <p data-ref="4">“JSON,” JSON. [Online]. Available: http://json.org/. [Accessed: 12-Apr-2017].</p>
+                <p data-ref="5">“RFC 4825 - The Extensible Markup Language (XML) Configuration Access Protocol (XCAP),” RFC 4825 - The Extensible Markup Language (XML) Configuration Access Protocol (XCAP). [Online]. Available: https://tools.ietf.org/html/rfc4825. [Accessed: 13-Apr-2017].</p>
+                <p data-ref="6">“RFC 4627 - The application/json Media Type for JavaScript Object Notation (JSON),” RFC 4627 - The application/json Media Type for JavaScript Object Notation (JSON). [Online]. Available: https://tools.ietf.org/html/rfc4627. [Accessed: 13-Apr-2017].</p>
+                <p data-ref="7">“Why JSON Triumphed Over SOAP | ProgrammableWeb,” Why JSON Triumphed Over SOAP | ProgrammableWeb. [Online]. Available: https://www.programmableweb.com/news/why-json-triumphed-over-soap/elsewhere-web/2015/01/02. [Accessed: 13-Apr-2017].</p>
+                <p data-ref="8">“xml-dev - Re: ‘XML is a subset of SGML’ - True or False?,” xml-dev - Re: “XML is a subset of SGML” - True or False? [Online]. Available: http://lists.xml.org/archives/xml-dev/200007/msg00048.html. [Accessed: 15-Apr-2017].</p>
+                <p data-ref="9">“What is SGML (Standard Generalized Markup Language)? - Definition from WhatIs.com,” What is SGML (Standard Generalized Markup Language)? - Definition from WhatIs.com. [Online]. Available: http://searchmicroservices.techtarget.com/definition/SGML-Standard-Generalized-Markup-Language. [Accessed: 15-Apr-2017].</p>
+                <p data-ref="10">“HTML 5, one vocabulary, two serializations | W3C Blog,” HTML 5, one vocabulary, two serializations | W3C Blog. [Online]. Available: https://www.w3.org/blog/2008/01/html5-is-html-and-xml/. [Accessed: 15-Apr-2017].</p>
+                <p data-ref="11">“SGML Declaration of HTML 4,” SGML Declaration of HTML 4. [Online]. Available: https://www.w3.org/TR/html4/sgml/sgmldecl.html. [Accessed: 15-Apr-2017].</p>
+                <p data-ref="12">“Introduction to SGML,” Introduction to SGML. [Online]. Available: http://www.sis.pitt.edu/spring/cas/node40.html. [Accessed: 15-Apr-2017].</p>
+                <p data-ref="13">“HTML 4 Document Type Definition,” HTML 4 Document Type Definition. [Online]. Available: https://www.w3.org/TR/html4/sgml/dtd.html. [Accessed: 15-Apr-2017].</p>
+                <p data-ref="14">“W3C XML Schema Definition Language (XSD) 1.1 Part 1: Structures,” W3C XML Schema Definition Language (XSD) 1.1 Part 1: Structures. [Online]. Available: https://www.w3.org/TR/xmlschema11-1/. [Accessed: 16-Apr-2017].</p>
+                <p data-ref="15">“RFC 7159 - The JavaScript Object Notation (JSON) Data Interchange Format,” RFC 7159 - The JavaScript Object Notation (JSON) Data Interchange Format. [Online]. Available: https://tools.ietf.org/html/rfc7159. [Accessed: 08-Apr-2017].</p>
+                <p data-ref="16">“xml-dev - An alternative formulation of the document-centric/data-centric XML divi,” xml-dev - An alternative formulation of the document-centric/data-centric XML divi. [Online]. Available: http://lists.xml.org/archives/xml-dev/200406/msg00022.html. [Accessed: 13-Apr-2017].</p>
+                <p data-ref="17">“Introducing the Office (2007) Open XML File Formats,” Introducing the Office (2007) Open XML File Formats. [Online]. Available: https://msdn.microsoft.com/en-us/library/aa338205(v=office.12).aspx. [Accessed: 17-Apr-2017].</p>
+                <p data-ref="18">“Why is JSON so popular? We want out of the syntax business.,” Why is JSON so popular? We want out of the syntax business. [Online]. Available: https://blog.mlab.com/2011/03/why-is-json-so-popular-developers-want-out-of-the-syntax-business/. [Accessed: 08-Apr-2017].</p>
+                <p data-ref="19">“GraphQL,” GraphQL. [Online]. Available: http://facebook.github.io/graphql/. [Accessed: 17-Apr-2017].</p>
+                <p data-ref="20">“www.contrib.andrew.cmu.edu/~shadow/sql/sql1992.txt,” www.contrib.andrew.cmu.edu/~shadow/sql/sql1992.txt. [Online]. Available: http://www.contrib.andrew.cmu.edu/~shadow/sql/sql1992.txt. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="21">N. Leavitt, “Will NoSQL Databases Live Up to Their Promise?,” Computer, vol. 43, no. 2, pp. 12–14, Feb. 2010.</p>
+                <p data-ref="22">“XML DB home,” XML DB home. [Online]. Available: http://www.oracle.com/technetwork/database/database-technologies/xmldb/overview/index.html. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="23">“JSON in Oracle Database,” JSON in Oracle Database. [Online]. Available: https://docs.oracle.com/database/121/ADXDB/json.htm. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="24">“MySQL :: MySQL 5.7 Reference Manual :: 13.11 XML Functions,” MySQL :: MySQL 5.7 Reference Manual :: 13.11 XML Functions. [Online]. Available: https://dev.mysql.com/doc/refman/5.7/en/xml-functions.html. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="25">“MySQL :: MySQL 5.7 Reference Manual :: 12.6 The JSON Data Type,” MySQL :: MySQL 5.7 Reference Manual :: 12.6 The JSON Data Type. [Online]. Available: https://dev.mysql.com/doc/refman/5.7/en/json.html. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="26">“XML Data (SQL Server) | Microsoft Docs,” XML Data (SQL Server) | Microsoft Docs. [Online]. Available: https://docs.microsoft.com/en-us/sql/relational-databases/xml/xml-data-sql-server. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="27">“JSON Data (SQL Server) | Microsoft Docs,” JSON Data (SQL Server) | Microsoft Docs. [Online]. Available: https://docs.microsoft.com/en-us/sql/relational-databases/json/json-data-sql-server. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="28">“PostgreSQL: Documentation: 9.3: XML Type,” PostgreSQL: Documentation: 9.3: XML Type. [Online]. Available: https://www.postgresql.org/docs/9.3/static/datatype-xml.html. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="29">“PostgreSQL: Documentation: 9.6: JSON Types,” PostgreSQL: Documentation: 9.6: JSON Types. [Online]. Available: https://www.postgresql.org/docs/9.6/static/datatype-json.html. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="30">“Why XML-in-RDBMS != MongoDB | MongoDB,” Why XML-in-RDBMS != MongoDB | MongoDB. [Online]. Available: https://www.mongodb.com/blog/post/why-xml-in-rdbms-is-not-mongodb. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="31">“JSON and BSON | MongoDB,” JSON and BSON | MongoDB. [Online]. Available: https://www.mongodb.com/json-and-bson. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="32">“Overview of DB2’s XML Capabilities: An introduction to SQL/XML functions in DB2 UDB and the DB2 XML Extender,” Overview of DB2’s XML Capabilities: An introduction to SQL/XML functions in DB2 UDB and the DB2 XML Extender. [Online]. Available: https://www.ibm.com/developerworks/data/library/techarticle/dm-0311wong/. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="33">“DB2 JSON capabilities, Part 1: Introduction to DB2 JSON,” DB2 JSON capabilities, Part 1: Introduction to DB2 JSON. [Online]. Available: https://www.ibm.com/developerworks/data/library/techarticle/dm-1306nosqlforjson1/. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="34">“Microsoft Access Data Types | Microsoft Docs,” Microsoft Access Data Types | Microsoft Docs. [Online]. Available: https://docs.microsoft.com/en-us/sql/odbc/microsoft/microsoft-access-data-types. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="35">“CQL data types | CQL for Cassandra 2.2 and later,” CQL data types | CQL for Cassandra 2.2 and later. [Online]. Available: https://docs.datastax.com/en/cql/3.3/cql/cql_reference/cql_data_types_c.html. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="36">“What’s New in Cassandra 2.2: JSON Support | DataStax: always-on data platform | NoSQL | Apache Cassandra,” What’s New in Cassandra 2.2: JSON Support | DataStax: always-on data platform | NoSQL | Apache Cassandra. [Online]. Available: https://www.datastax.com/dev/blog/whats-new-in-cassandra-2-2-json-support. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="37">“Data types – Redis,” Data types – Redis. [Online]. Available: https://redis.io/topics/data-types. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="38">“Redis as a JSON store | Redis Labs,” Redis as a JSON store | Redis Labs. [Online]. Available: https://redislabs.com/blog/redis-as-a-json-store/. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="39">“Datatypes In SQLite Version 3,” Datatypes In SQLite Version 3. [Online]. Available: https://sqlite.org/datatype3.html. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="40">“The JSON1 Extension,” The JSON1 Extension. [Online]. Available: https://sqlite.org/json1.html. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="41">“DB-Engines Ranking - popularity ranking of database management systems,” DB-Engines Ranking - popularity ranking of database management systems. [Online]. Available: https://db-engines.com/en/ranking. [Accessed: 21-Apr-2017].</p>
+                <p data-ref="42">“Merging XML file changes in git - Stack Overflow,” Merging XML file changes in git - Stack Overflow. [Online]. Available: http://stackoverflow.com/questions/34184170/merging-xml-file-changes-in-git. [Accessed: 21-Apr-2017].</p>
+            </div>
+        </div>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <script src="./js/references.js"></script>
+    </body>
+</html>
